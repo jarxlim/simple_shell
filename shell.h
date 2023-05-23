@@ -1,5 +1,5 @@
-#ifndef _SHELL_H_
-#define _SHELL_H_
+#ifndef SHELL_H
+#define SHELL_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,26 +13,26 @@
 #include <errno.h>
 
 /* forthe read/write buffers */
-#define READ_BUF_SIZE 1024
-#define WRITE_BUF_SIZE 1024
-#define BUF_FLUSH -1
+#define BUFF_R_SIZE 1024
+#define BUFF_W_SIZE 1024
+#define BUFFER_FLUSH -1
 
 /* for command chaining */
-#define CMD_NORM	0
-#define CMD_OR		1
-#define CMD_AND		2
-#define CMD_CHAIN	3
+#define COMMANDS_NORM	0
+#define COMMANDS_OR	1
+#define COMMANDS_AND	2
+#define COMMANDS_CHAIN 	3
 
 /* for convert_number() */
-#define CONVERT_LOWERCASE	1
-#define CONVERT_UNSIGNED	2
+#define LOWER_CONVERTER		1
+#define UNSIGN_CONVERTER	2
 
 /* 1 if using system getline() */
 #define USE_GETLINE 0
 #define USE_STRTOK 0
 
-#define HIST_FILE	".simple_shell_history"
-#define HIST_MAX	4096
+#define FILE_HIST	".simple_shell"
+#define H_MAXIMUM	4096
 
 extern char **environ;
 
@@ -45,7 +45,7 @@ extern char **environ;
  */
 typedef struct liststr
 {
-	int num;
+	int numbers;
 	char *str;
 	struct liststr *next;
 } list_t;
@@ -74,28 +74,27 @@ typedef struct liststr
  */
 typedef struct passinfo
 {
-	char *arg;
-	char **argv;
-	char *path;
-	int argc;
 	unsigned int line_count;
 	int err_num;
-	int linecount_flag;
-	char *fname;
-	list_t *env;
-	list_t *history;
+	int line_count;
+	char *file_name;
+	list_t *envp;
+	list_t *hist;
 	list_t *alias;
 	char **environ;
 	int env_changed;
-	int status;
-
-	char **cmd_buf; /* pointer to cmd ; chain buffer, for memory mangement */
-	int cmd_buf_type; /* CMD_type ||, &&, ; */
-	int readfd;
-	int histcount;
+	int stats;
+	char *arv;
+        char **argv;
+        char *path;
+        int argc;
+	char **buffer_cmd;
+	int commands_type; 
+	int file_reader;
+	int hist_size;
 } info_t;
 
-#define INFO_INIT \
+#define INIT_F \
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
 	0, 0, 0}
 
@@ -104,11 +103,11 @@ typedef struct passinfo
  *@type: the builtin command flag
  *@func: the function
  */
-typedef struct builtin
+typedef struct blt
 {
 	char *type;
 	int (*func)(info_t *);
-} builtin_table;
+} built_t;
 
 
 /*found in shell.c */

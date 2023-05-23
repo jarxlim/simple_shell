@@ -1,12 +1,12 @@
-#include "main.h"
+#include "shell.h"
 /**
- * interactive -function to return if shell is interactive mode
- * @info: struct address to the shell
+ * int_checker - checks if shell is interactive mode
+ * @ifn: address to the shell
  * Return: 1 if  interactive mode else 0 otherwise
  */
-int interactive(info_t *info)
+int int_checker(info_t *ifn)
 {
-	return (isatty(STDIN_FILENO) && info->readfd <= 2);
+	return (isatty(STDIN_FILENO) && ifn->file_reader <= 2);
 }
 /**
  * is_delim - function to check if character is a delimeter

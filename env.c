@@ -11,21 +11,23 @@ int _myenv(info_t *info)
 }
 /**
  * _getenv - function to get the value of envs
- * @info: Structure containing aruments
- * @string_name: env name to get
- * Return: the value of env we get
+ * @ifn: structure containing aruments
+ * @env_name: env name 
+ * Return: the value of env 
  */
-char *_getenv(info_t *info, const char *string_name)
+char *_getenv(info_t *ifn, const char *env_name)
 {
-	list_t *node = info->env;
-	char *h;
+	list_t *nodes = ifn->envp;
+	char *c;
 
-	while (node)
+	while (nodes)
 	{
-		h = starts_with(node->str, string_name);
-		if (h && *h)
-			return (h);
-		node = node->next;
+		c =_leet(nodes->string, env_name);
+		if (c && *c)
+		{
+			return (c);
+		}
+		nodes = nodes->next;
 	}
 	return (NULL);
 }
@@ -66,17 +68,17 @@ int _myunsetenv(info_t *info)
 	return (0);
 }
 /**
- * populate_env_list - function to populate environmental list
- * @info: Struct containing argument
- * Return: 0 as success
+ * env_lister - define environmental list
+ * @ifn: contains argument
+ * Return: return 0 on success
  */
-int populate_env_list(info_t *info)
+int env_lister(info_t *ifn)
 {
-	size_t a;
-	list_t *node = NULL;
+	size_t index;
+	list_t *nodes = NULL;
 
-	for (a = 0; environ[a]; a++)
-		add_node_end(&node, environ[a], 0);
-	info->env = node;
+	for (index = 0; environ[index]; index++)
+		append_node(&nodes, environ[index], 0);
+	ifn->envp = nodes;
 	return (0);
 }

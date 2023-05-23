@@ -1,18 +1,18 @@
-#include "main.h"
+#include "shell.h"
 
 /**
- * _myexit - function to get out of the shell
- * @info: Struct info for holding the parameter prototypes
+ * _exit - to exit the shell
+ * @ifn: the parameter
  *  Return: 1 for success and -2 for failure
  */
-int _myexit(info_t *info)
+int _exit(info_t *ifn)
 {
-	int check_exit;
+	int exitfinder;
 
-	if (info->argv[1])
+	if (ifn->argv[1])
 	{
-		check_exit = _erratoi(info->argv[1]);
-		if (check_exit == -1)
+		exitfinder = _strtoint(ifn->argv[1]);
+		if (exitfinder == -1)
 		{
 			info->status = 2;
 			print_error(info, "Invalid number: ");

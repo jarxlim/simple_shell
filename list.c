@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 /**
  * list_len -function to return the length of linked list
  * @h: pointer to first node in tyhe list
@@ -71,22 +71,24 @@ size_t print_list(const list_t *head)
 	return (a);
 }
 /**
- * node_starts_with - function to return node in lthee list whose string
- * @node: pointer to the head of list
- * @prefix: string t compare
- * @c: the next char that follows the prefix matched
- * Return:found nodes or null
+ * node_list - return node in list whose string
+ * @nodes: the head of list
+ * @stn: string t compare
+ * @c: the char that follows the stn
+ * Return: nodes or null
  */
-list_t *node_starts_with(list_t *node, char *prefix, char c)
+list_t *node_list(list_t *nodes, char *stn, char c)
 {
 	char *d = NULL;
 
-	while (node)
+	while (nodes)
 	{
-		d = starts_with(node->str, prefix);
+		d = _leet(nodes->str, stn);
 		if (d && ((c == -1) || (*d == c)))
-			return (node);
-		node = node->next;
+		{
+			return (nodes);
+		}
+		nodes = nodes->next;
 	}
 	return (NULL);
 }

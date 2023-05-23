@@ -1,17 +1,19 @@
-#include "main.h"
+#include "shell.h"
 
 /**
- * _erratoi -function to  convert a string to an integer
- * @s: the string to be converted
- * Return: 0 for success and -1 for failure
+ * _strtoint - convert string to an integer
+ * @s: string to be converted
+ * Return: 0 on success and -1 for failure
  */
-int _erratoi(char *s)
+int _strtoint(char *s)
 {
 	int a = 0;
 	unsigned long int output = 0;
 
 	if (*s == '+')
+	{	
 		s++;
+	}
 	for (a = 0;  s[a] != '\0'; a++)
 	{
 		if (s[a] >= '0' && s[a] <= '9')
@@ -19,7 +21,9 @@ int _erratoi(char *s)
 			output *= 10;
 			output += (s[a] - '0');
 			if (output > INT_MAX)
+			{
 				return (-1);
+			}
 		}
 		else
 			return (-1);
@@ -83,26 +87,25 @@ int print_d(int input, int fd)
 }
 
 /**
- * convert_number - converter function from one base to another
- * @num: number to be converted
+ * num_converter - converter from one base to another
+ * @num: the number to be converted
  * @base: base to coonvert to
- * @flags: argument flags to implement
- *
- * Return: string
+ * @flag: argument flags to implement
+ * Return: strings
  */
-char *convert_number(long int num, int base, int flags)
+char *num_converter(long int num, int base, int flag)
 {
 	static char *array, buffer[50];
 	char *point, sign = 0;
 	unsigned long number = num;
 
-	if (!(flags & CONVERT_UNSIGNED) && num < 0)
+	if (!(flag & UNSIGN_CONVERTER) && num < 0)
 	{
 		number = -num;
 		sign = '-';
 
 	}
-	array = flags & CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
+	array = flag & LOWER_CONVERTER ? "0123456789abcdef" : "0123456789ABCDEF";
 	point = &buffer[49];
 	*point = '\0';
 
@@ -117,20 +120,20 @@ char *convert_number(long int num, int base, int flags)
 }
 
 /**
- * remove_comments - function to replace first
- * apperance of '#' with '\0' as removing comms
+ * comment_deleter - function to replace first
  * @buffer: address of the string tobe modified
- *
  * Return: Always 0;
  */
-void remove_comments(char *buffer)
+void comment_deleter(char *buffer)
 {
 	int a;
 
 	for (a = 0; buffer[a] != '\0'; a++)
+	{
 		if (buffer[a] == '#' && (!a || buffer[a - 1] == ' '))
 		{
 			buffer[a] = '\0';
 			break;
 		}
+	}
 }

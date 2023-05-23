@@ -1,154 +1,45 @@
-#include "main.h"
+#include "shell.h"
 
 /**
- * hsh - the function to print the shell prontf
- * @info: info_t type for parameter
- * @av:  array of arguments from the main function
- *
- * Return: 0 as success , 1 and error for failure
+ * main - entry point
+ * @arg: argument number
+ * @agv: argument array
+ * Return: 0 if successs, 1 if unsuccessful
  */
-int hsh(info_t *info, char **av)
+int main(int argm, char **agv)
 {
-	ssize_t a = 0;
-	int builtin = 0;
+	int filename = 2;
+	info_t ifn[] = { INIT_F };
 
-	while (a != -1 && builtin != -2)
+	asm ("mov %1, %0\n\t"
+		"add $3, %0"
+		: "=r" (filename)
+		: "r" (filename));
+
+	if (argm == 2)
 	{
-		clear_info(info);
-		if (interactive(info))
-			_puts("myshell$ ");
-		_eputchar(BUF_FLUSH);
-		a = get_input(info);
-		if (a != -1)
+		filename = open(agv[1], O_RDONLY);
+		if (filename == -1)
 		{
-			set_info(info, av);
-			builtin = find_builtin(info);
-			if (builtin == -1)
-				find_cmd(info);
-		}
-		else if (interactive(info))
-			_putchar('\n');
-		free_info(info, 0);
-	}
-	write_history(info);
-	free_info(info, 1);
-	if (!interactive(info) && info->status)
-		exit(info->status);
-	if (builtin == -2)
-	{
-		if (info->err_num == -1)
-			exit(info->status);
-		exit(info->err_num);
-	}
-	return (builtin);
-}
-
-/**
- * find_builtin - function to find the built_in command
- * @info: the info struct for parameter and input
- *
- * Return: -1, 0 ,-2 depending builtin not found,
- */
-int find_builtin(info_t *info)
-{
-	int a, builtin = -1;
-	builtin_table builtintbl[] = {
-		{"exit", _myexit},
-		{"alias", _myalias},
-		{"env", _myenv},
-		{"cd", _mycd},
-		{"help", _myhelp},
-		{"history", _myhistory},
-		{"setenv", _mysetenv},
-		{"unsetenv", _myunsetenv},
-		{NULL, NULL}
-	};
-
-	for (a = 0; builtintbl[a].type; a++)
-		if (_strcmp(info->argv[0], builtintbl[a].type) == 0)
-		{
-			info->line_count++;
-			builtin = builtintbl[a].func(info);
-			break;
-		}
-	return (builtin);
-}
-
-/**
- * find_cmd - function to find the command in the path
- * @info: info struct for paramenters and input
- *
- */
-void find_cmd(info_t *info)
-{
-	char *path = NULL;
-	int a, b;
-
-	info->path = info->argv[0];
-	if (info->linecount_flag == 1)
-	{
-		info->line_count++;
-		info->linecount_flag = 0;
-	}
-	for (a = 0, b = 0; info->arg[a]; a++)
-		if (!is_delim(info->arg[a], " \t\n"))
-			b++;
-	if (!b)
-		return;
-
-	path = find_path(info, _getenv(info, "PATH="), info->argv[0]);
-	if (path)
-	{
-		info->path = path;
-		fork_cmd(info);
-	}
-	else
-	{
-		if ((interactive(info) || _getenv(info, "PATH=")
-			|| info->argv[0][0] == '/') && is_cmd(info, info->argv[0]))
-			fork_cmd(info);
-		else if (*(info->arg) != '\n')
-		{
-			info->status = 127;
-			print_error(info, "not found\n");
-		}
-	}
-}
-
-/**
- * fork_cmd - function to make the child process for the command
- * @info: info struct for inputs and parameters
- *
- * Return: void
- */
-void fork_cmd(info_t *info)
-{
-	pid_t child_pid;
-
-	child_pid = fork();
-	if (child_pid == -1)
-	{
-		perror("Error(fork failed):");
-		return;
-	}
-	if (child_pid == 0)
-	{
-		if (execve(info->path, info->argv, get_environ(info)) == -1)
-		{
-			free_info(info, 1);
 			if (errno == EACCES)
+			{
 				exit(126);
-			exit(1);
+			}
+			if (errno == ENOENT)
+			{
+				_prints(agv[0]);
+				_prints(": 0: Can't open ");
+				_prints(agv[1]);
+				printchar('\n');
+				printchar(BUFFER_FLUSH);
+				exit(127);
+			}
+			return (EXIT_FAILURE);
 		}
+		ifn->file_reader = filename;
 	}
-	else
-	{
-		wait(&(info->status));
-		if (WIFEXITED(info->status))
-		{
-			info->status = WEXITSTATUS(info->status);
-			if (info->status == 126)
-				print_error(info, "Permission denied\n");
-		}
-	}
+	env_lister(ifn);
+	hist_read(ifn);
+	hsh(ifn, agv);
+	return (EXIT_SUCCESS);
 }
