@@ -5,7 +5,7 @@
  * @ifn: the parameter
  *  Return: 1 for success and -2 for failure
  */
-int _exit(info_t *ifn)
+int get_exit(info_t *ifn)
 {
 	int exitfinder;
 
@@ -17,7 +17,7 @@ int _exit(info_t *ifn)
 			ifn->stats = 2;
 			error_printer(ifn, "Invalid number: ");
 			_prints(ifn->argv[1]);
-			_printchar('\n');
+			printchar('\n');
 			return (1);
 		}
 		ifn->num_err = _strtoint(ifn->argv[1]);
@@ -40,11 +40,11 @@ int _cmd(info_t *ifn)
 	p = getcwd(buffer, 1024);
 	if (!p)
 		_putstr("TODO: >>getcwd failure msg here<<\n");
-	if (!info->argv[1])
+	if (!ifn->argv[1])
 	{
 		directory = _getenv(ifn, "HOME=");
 		if (!directory)
-			changedir = chdir((directory = _getenv(info, "PWD=")) ? directory : "/");
+			changedir = chdir((directory = _getenv(ifn, "PWD=")) ? directory : "/");
 		else
 			changedir = chdir(directory);
 	}

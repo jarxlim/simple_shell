@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 /**
  * **strtow - function to throw string into words by using delimitor
  * @str: the input string for making word

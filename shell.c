@@ -9,7 +9,7 @@
 int main(int argm, char **agv)
 {
 	int filename = 2;
-	info_t ifn[] = { INIT_F };
+	info_t ifn[] = { INFO_INIT };
 
 	asm ("mov %1, %0\n\t"
 		"add $3, %0"
@@ -40,6 +40,6 @@ int main(int argm, char **agv)
 	}
 	env_lister(ifn);
 	hist_read(ifn);
-	hsh(ifn, agv);
+	_shell(ifn, agv);
 	return (EXIT_SUCCESS);
 }

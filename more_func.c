@@ -11,14 +11,14 @@ int int_checker(info_t *ifn)
 /**
  * is_delim - function to check if character is a delimeter
  * @c: the char to check character to check
- * @delim: the delimeter string provided to be checked
+ * @delimiter: the delimeter string provided to be checked
  * Return: 1/0 teru or false respectively
  */
-int is_delim(char c, char *delim)
+int is_delim(char c, char *delimiter)
 {
-	while (*delim)
+	while (*delimiter)
 	{
-		if (*delim++ == c)
+		if (*delimiter++ == c)
 			return (1);
 	}
 	return (0);

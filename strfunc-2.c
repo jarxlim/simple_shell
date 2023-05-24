@@ -34,7 +34,7 @@ char *_strdup(const char *string)
 	{
 		return (NULL);
 	}
-	while (*str++)
+	while (*string++)
 	{
 		len++;
 	}
@@ -45,7 +45,7 @@ char *_strdup(const char *string)
 	}
 	for (len++; len--;)
 	{
-		tel[len] = *--str;
+		tel[len] = *--string;
 	}
 	return (tel);
 }
@@ -74,7 +74,7 @@ int _putchar(char chr)
 	static int index;
 	static char buffer[BUFF_W_SIZE];
 
-	if (chr == BUFFER_FLUSH || index >= BUF_W_SIZE)
+	if (chr == BUFFER_FLUSH || index >= BUFF_W_SIZE)
 	{
 		write(1, buffer, index);
 		index = 0;

@@ -16,6 +16,7 @@ ssize_t _buffcmd(info_t *ifn, char **buff, size_t *size)
 		free(*buff);
 		*buff = NULL;
 		signal(SIGINT, ctrlc_handler);
+#if USE_GETLINE
 		a = getline(buff, &length, stdin);
 #else
 		a = _getline(ifn, buff, &length);
@@ -27,7 +28,7 @@ ssize_t _buffcmd(info_t *ifn, char **buff, size_t *size)
 				(*buff)[a - 1] = '\0';
 				a--;
 			}
-			ifn->line_count = 1;
+			ifn->count_fline= 1;
 			comment_deleter(*buff);
 			append_list(ifn, *buff, ifn->hist_size++);
 			{

@@ -15,12 +15,12 @@ list_t *prepend_node(list_t **head, const char *string, int numbers)
 	new_head = malloc(sizeof(list_t));
 	if (!new_head)
 		return (NULL);
-	_memset((void *)new_head, 0, sizeof(list_t));
-	new_head->numbers = num;
+	_memfill((void *)new_head, 0, sizeof(list_t));
+	new_head->numbers = numbers;
 	if (string)
 	{
-		new_head->string = _strdup(str);
-		if (!new_head->string)
+		new_head->str = _strdup(string);
+		if (!new_head->str)
 		{
 			free(new_head);
 			return (NULL);
@@ -57,8 +57,8 @@ list_t *append_node(list_t **head, const char *string, int numbers)
 
 	if (string)
 	{
-		new_node->string = _strdup(str);
-		if (!new_node->string)
+		new_node->str = _strdup(string);
+		if (!new_node->str)
 		{
 			free(new_node);
 			return (NULL);
@@ -86,7 +86,7 @@ size_t list_printer(const list_t *p)
 
 	while (p)
 	{
-		_putstr(p->string ? p->str : "(nil)");
+		_putstr(p->str ? p->str : "(nil)");
 		_putstr("\n");
 		p = p->next;
 		j++;
@@ -108,21 +108,21 @@ int detach_node(list_t **head, unsigned int ind)
         {
                 return (0);
         }
-        if (!index)
+        if (!ind)
         {
                 nodes = *head;
                 *head = (*head)->next;
-                free(nodes->string);
+                free(nodes->str);
                 free(nodes);
                 return (1);
         }
         nodes = *head;
-        while (nodes != '\0')
+        while (nodes)
         {
                 if (a == ind)
                 {
-                        prev->next = node->next;
-                        free(nodes->string);
+                        prev->next = nodes->next;
+                        free(nodes->str);
                         free(nodes);
                         return (1);
                 }

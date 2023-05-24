@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * bfree - function to make pointer set to NULL

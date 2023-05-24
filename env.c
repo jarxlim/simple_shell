@@ -22,7 +22,7 @@ char *_getenv(info_t *ifn, const char *env_name)
 
 	while (nodes)
 	{
-		c =_leet(nodes->string, env_name);
+		c =_leet(nodes->str, env_name);
 		if (c && *c)
 		{
 			return (c);

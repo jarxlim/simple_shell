@@ -6,7 +6,7 @@
  *@m: count of times it filled
  *Return: memory address of the string
  */
-char *_memfill(char *p, char c unsigned int m)
+char *_memfill(char *p, char c, unsigned int m)
 {
 	unsigned int index;
 

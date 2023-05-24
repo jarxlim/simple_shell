@@ -43,7 +43,7 @@ void error_printer(info_t *ifn, char *err_str)
 	_prints(": ");
 	write_dec(ifn->count_line, STDERR_FILENO);
 	_prints(": ");
-	_prints(info->argv[0]);
+	_prints(ifn->argv[0]);
 	_prints(": ");
 	_prints(err_str);
 }

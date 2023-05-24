@@ -31,10 +31,10 @@ char *find_history(info_t *ifn)
  * @info: the structure of pparameters
  * Return: 1 for success, -1 for failure
  */
-int write_history(info_t *info)
+int print_hist(info_t *ifn)
 {
 	ssize_t fds;
-	char *fname = get_history_file(info);
+	char *fname = find_history(ifn);
 	list_t *nodes = NULL;
 
 	if (!fname)
@@ -44,16 +44,15 @@ int write_history(info_t *info)
 	free(fname);
 	if (fds == -1)
 		return (-1);
-	for (nodes = info->history; nodes; nodes = nodes->next)
+	for (nodes = ifn->hist; nodes; nodes = nodes->next)
 	{
-		_putsfd(nodes->str, fds);
-		_putfd('\n', fds);
+		_printsf(nodes->str, fds);
+		_pchar('\n', fds);
 	}
-	_putfd(BUF_FLUSH, fds);
+	_pchar(BUFFER_FLUSH, fds);
 	close(fds);
 	return (1);
 }
-
 /**
  * hist_read -reads history from file
  * @ifn: structure info for parameters
@@ -136,7 +135,7 @@ int append_list(info_t *ifn, char *buffer, int size)
 	}
 	append_node(&point, buffer, size);
 
-	if (!ifn->his)
+	if (!ifn->hist)
 	{
 		ifn->hist = point;
 	}

@@ -5,7 +5,7 @@
  * @info: struct info for potetal paraments
  * Return: always 0 as success
  */
-int _history(info_t *info)
+int _history(info_t *ifn)
 {
 	_lister(ifn->hist);
 	return (0);

@@ -79,7 +79,7 @@ int change_alias(info_t *ifn)
 
 	for (b = 0; b < 10; b++)
 	{
-		nodes = node_list(ifn->alias, ifn->argv[0], '=');
+		nodes = node_list(ifn->_alias, ifn->argv[0], '=');
 		if (!nodes)
 		{
 			return (0);

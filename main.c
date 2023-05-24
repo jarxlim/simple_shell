@@ -23,25 +23,25 @@ int _shell(info_t *ifn, char **agv)
 		if (a != -1)
 		{
 			_initiate(ifn, agv);
-			blt = builtin_checker(info);
+			blt = builtin_checker(ifn);
 			if (blt == -1)
-				find_cmd(info);
+				cmd_finder(ifn);
 		}
-		else if (interactive(info))
+		else if (int_checker(ifn))
 			_putchar('\n');
-		free_info(info, 0);
+		free_info(ifn, 0);
 	}
-	write_history(info);
-	free_info(info, 1);
-	if (!interactive(info) && info->status)
-		exit(info->status);
-	if (builtin == -2)
+	print_hist(ifn);
+	free_info(ifn, 1);
+	if (!int_checker(ifn) && ifn->stats)
+		exit(ifn->stats);
+	if (blt == -2)
 	{
-		if (info->err_num == -1)
-			exit(info->status);
-		exit(info->err_num);
+		if (ifn->num_err == -1)
+			exit(ifn->stats);
+		exit(ifn->num_err);
 	}
-	return (builtin);
+	return (blt);
 }
 
 /**
@@ -54,7 +54,7 @@ int builtin_checker(info_t *ifn)
 {
 	int a, blt = -1;
 	built_t blt_tbl[] = {
-		{"exit", _exit},
+		{"exit", get_exit},
 		{"alias", get_alias},
 		{"env", _envron},
 		{"cd", _cmd},
@@ -72,7 +72,7 @@ int builtin_checker(info_t *ifn)
 			blt = blt_tbl[a].func(ifn);
 			break;
 		}
-	return (bnum_converterlt);
+	return (blt);
 }
 
 /**
@@ -89,10 +89,10 @@ void cmd_finder(info_t *ifn)
 	if (ifn->count_fline == 1)
 	{
 		ifn->count_line++;
-		info->count_fline = 0;
+		ifn->count_fline = 0;
 	}
-	for (a = 0, b = 0; ifn->arg[a]; a++)
-		if (!is_delim(ifn->arg[a], " \t\n"))
+	for (a = 0, b = 0; ifn->arv[a]; a++)
+		if (!is_delim(ifn->arv[a], " \t\n"))
 			b++;
 	if (!b)
 		return;
@@ -105,13 +105,13 @@ void cmd_finder(info_t *ifn)
 	}
 	else
 	{
-		if ((interactive(info) || _getenv(info, "PATH=")
-			|| info->argv[0][0] == '/') && is_cmd(info, info->argv[0]))
-			fork_cmd(info);
-		else if (*(info->arg) != '\n')
+		if ((int_checker(ifn) || _getenv(ifn, "PATH=")
+			|| ifn->argv[0][0] == '/') &&  check_cmd(ifn, ifn->argv[0]))
+			fork_cmd(ifn);
+		else if (*(ifn->arv) != '\n')
 		{
-			info->status = 127;
-			print_error(info, "not found\n");
+			ifn->stats = 127;
+			error_printer(ifn, "not found\n");
 		}
 	}
 }
@@ -144,12 +144,12 @@ void fork_cmd(info_t *ifn)
 	}
 	else
 	{
-		wait(&(info->status));
-		if (WIFEXITED(info->status))
+		wait(&(ifn->stats));
+		if (WIFEXITED(ifn->stats))
 		{
-			info->status = WEXITSTATUS(info->status);
-			if (info->status == 126)
-				print_error(info, "Permission denied\n");
+			ifn->stats = WEXITSTATUS(ifn->stats);
+			if (ifn->stats == 126)
+				error_printer(ifn, "Permission denied\n");
 		}
 	}
 }
