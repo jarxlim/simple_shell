@@ -1,8 +1,7 @@
 #include "shell.h"
-
 /**
- * _myhistory - function to show the history of the command we run
- * @info: struct info for potetal paraments
+ * _history - function to show the history of the command we run
+ * @ifn: struct from info_t tpe for potetal paraments
  * Return: always 0 as success
  */
 int _history(info_t *ifn)
@@ -12,11 +11,10 @@ int _history(info_t *ifn)
 }
 
 /**
- * unset_alias - unset alliass to the string
- * @info: parameter 
- * @str: the strin used be set
- *
- * Return: Always 0 on success, 1 on error
+ * reset_alias - function to unset alliass to the string
+ * @ifn: structure from info_t type parameter
+ * @str: the string used be set
+ * Return: Always 0 when successfull, 1 when failsr
  */
 int reset_alias(info_t *ifn, char *str)
 {
@@ -35,12 +33,11 @@ int reset_alias(info_t *ifn, char *str)
 	*point = a;
 	return (reset);
 }
-
 /**
- * set_alias - set all alias to string
- * @info: for paramenters
+ * alias_setter - function used to set all alias to string
+ * @ifn: for paramenters
  * @str: the string to use
- * Return: 0on success, 1 for failure
+ * Return: 0 when successfull, 1 when fails
  */
 int alias_setter(info_t *ifn, char *str)
 {
@@ -58,11 +55,10 @@ int alias_setter(info_t *ifn, char *str)
 	reset_alias(ifn, str);
 	return (append_node(&(ifn->_alias), str, 0) == NULL);
 }
-
 /**
- * print_alias - print all alias 
- * @node:node of alias stack
- * Return: 0 on success, 1 for failure
+ * w_alias - function for writing all alias
+ * @nodes: nodes of alias stack
+ * Return: 0 when successfull, 1 when fails
  */
 int w_alias(list_t *nodes)
 {
@@ -80,11 +76,10 @@ int w_alias(list_t *nodes)
 	}
 	return (1);
 }
-
 /**
- * _myalias - check the details for alias 
- * @info:params
- *  Return: 0on success
+ * get_alias - function to check the details for alias
+ * @ifn: object of info_t structure to be used
+ *  Return: 0 when successfull
  */
 int get_alias(info_t *ifn)
 {

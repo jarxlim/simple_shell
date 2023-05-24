@@ -1,9 +1,9 @@
 #include "shell.h"
 
 /**
- * _exit - to exit the shell
- * @ifn: the parameter
- *  Return: 1 for success and -2 for failure
+ * get_exit - function to help us to exit the shell
+ * @ifn: object from inf0_t sctruct
+ *  Return: 1 when successull and -2 for failure
  */
 int get_exit(info_t *ifn)
 {
@@ -26,11 +26,10 @@ int get_exit(info_t *ifn)
 	ifn->num_err = -1;
 	return (-2);
 }
-
 /**
- * _mycd - change the directory using chdir function
- * @info: struct info to hold parameter protptypes
- *  Return: 0 as success
+ * _cmd - function to change the directory using chdir function
+ * @ifn: struct with tyoe info_t to hold parameter protptypes
+ *  Return: returns 0 when successull
  */
 int _cmd(info_t *ifn)
 {
@@ -75,8 +74,8 @@ int _cmd(info_t *ifn)
 }
 
 /**
- * _myhelp - change the current directory
- * @info: the parameters of info_t
+ * _help - functionn to change the current directory
+ * @ifn: the parameters of info_t
  *  Return: Always 0
  */
 int _help(info_t *ifn)
