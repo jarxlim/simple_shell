@@ -18,7 +18,7 @@ void _prints(char *string)
 }
 /**
  * printchar - prints the character
- * @c: character to be printed
+ * @chr: character to be printed
  * Return: return on success 1.
  */
 int printchar(char chr)

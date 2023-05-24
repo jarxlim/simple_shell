@@ -76,7 +76,7 @@ list_t *append_node(list_t **head, const char *string, int numbers)
 }
 
 /**
- * print_list_string - print string element list only
+ * list_printer - print string element list only
  * @p: pointer
  * Return: element printed
  */
@@ -101,36 +101,34 @@ size_t list_printer(const list_t *p)
  */
 int detach_node(list_t **head, unsigned int ind)
 {
-        list_t *nodes, *prev;
-        unsigned int a = 0;
+	list_t *nodes, *prev;
+	unsigned int a = 0;
 
-        if (!head || !*head)
-        {
-                return (0);
-        }
-        if (!ind)
-        {
-                nodes = *head;
-                *head = (*head)->next;
-                free(nodes->str);
-                free(nodes);
-                return (1);
-        }
-        nodes = *head;
-        while (nodes)
-        {
-                if (a == ind)
-                {
-                        prev->next = nodes->next;
-                        free(nodes->str);
-                        free(nodes);
-                        return (1);
-                }
-                a++;
-                prev = nodes;
-                nodes = nodes->next;
-        }
-        return (0);
+	if (!head || !*head)
+		return (0);
+	if (!ind)
+	{
+		nodes = *head;
+		*head = (*head)->next;
+		free(nodes->str);
+		free(nodes);
+		return (1);
+	}
+	nodes = *head;
+	while (nodes)
+	{
+		if (a == ind)
+		{
+			prev->next = nodes->next;
+			free(nodes->str);
+			free(nodes);
+			return (1);
+		}
+		a++;
+		prev = nodes;
+		nodes = nodes->next;
+	}
+	return (0);
 }
 
 /**

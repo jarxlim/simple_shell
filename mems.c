@@ -17,7 +17,7 @@ char *_memfill(char *p, char c, unsigned int m)
 	return (p);
 }
 /**
- * ffree - function free a pointer of string
+ * freef - function free a pointer of string
  * @point: pointer to string to free
  */
 void freef(char **point)
@@ -34,7 +34,7 @@ void freef(char **point)
  * _realloc -  reallocate a block of memory
  * @p: points to previous memory  allocated
  * @old: size of previous block
- * @new: size of new block 
+ * @new: size of new block
  * Return: new pointer allocated
  */
 void *_realloc(void *p, unsigned int old, unsigned int new)
