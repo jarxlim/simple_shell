@@ -20,7 +20,7 @@ char *_memfill(char *p, char c unsigned int m)
  * ffree - function free a pointer of string
  * @point: pointer to string to free
  */
-void ffree(char **point)
+void freef(char **point)
 {
 	char **i = point;
 

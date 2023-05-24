@@ -47,17 +47,17 @@ void _initiate(info_t *ifn, char **avt)
  * @info: struct address
  * @all: true if freeing all fields
  */
-void free_info(info_t *info, int all)
+void free_info(info_t *ifn, int all)
 {
-	ffree(info->argv);
-	info->argv = NULL;
-	info->path = NULL;
+	freef(ifn->argv);
+	ifn->argv = NULL;
+	ifn->path = NULL;
 	if (all)
 	{
-		if (!info->cmd_buf)
-			free(info->arg);
-		if (info->env)
-			free_list(&(info->env));
+		if (!ifn->buffer_cmd)
+			free(ifn->arv);
+		if (ifn->envp)
+			free_list(&(ifn->envp));
 		if (info->history)
 			free_list(&(info->history));
 		if (info->alias)

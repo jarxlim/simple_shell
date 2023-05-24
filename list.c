@@ -4,13 +4,13 @@
  * @h: pointer to first node in tyhe list
  * Return: size of linked list
  */
-size_t list_len(const list_t *h)
+size_t list_length(const list_t *p)
 {
 	size_t i = 0;
 
-	while (h)
+	while (p)
 	{
-		h = h->next;
+		p = p->next;
 		i++;
 	}
 	return (i);
@@ -20,10 +20,10 @@ size_t list_len(const list_t *h)
  * @head: pointer to first node of the list
  * Return: array of strings in the list
  */
-char **list_to_strings(list_t *head)
+char **list_string(list_t *head)
 {
-	list_t *node = head;
-	size_t a = list_len(head), b;
+	list_t *nodes = head;
+	size_t a = list_length(head), b;
 	char **string;
 	char *str;
 
@@ -32,9 +32,9 @@ char **list_to_strings(list_t *head)
 	string = malloc(sizeof(char *) * (a + 1));
 	if (!string)
 		return (NULL);
-	for (a = 0; node; node = node->next, a++)
+	for (a = 0; nodes; nodes = nodes->next, a++)
 	{
-		str = malloc(_strlen(node->str) + 1);
+		str = malloc(_strlen(nodes->str) + 1);
 		if (!str)
 		{
 			for (b = 0; b < a; b++)
@@ -43,7 +43,7 @@ char **list_to_strings(list_t *head)
 			return (NULL);
 		}
 
-		str = _strcpy(str, node->str);
+		str = _strcpy(str, nodes->str);
 		string[a] = str;
 	}
 	string[a] = NULL;

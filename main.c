@@ -23,8 +23,8 @@ int _shell(info_t *ifn, char **agv)
 		if (a != -1)
 		{
 			_initiate(ifn, agv);
-			blt = find_builtin(info);
-			if (builtin == -1)
+			blt = builtin_checker(info);
+			if (blt == -1)
 				find_cmd(info);
 		}
 		else if (interactive(info))
@@ -60,19 +60,19 @@ int builtin_checker(info_t *ifn)
 		{"cd", _cmd},
 		{"help", _help},
 		{"history", _history},
-		{"setenv", _mysetenv},
-		{"unsetenv", _myunsetenv},
+		{"setenv", my_setenv},
+		{"unsetenv", my_unsetenv},
 		{NULL, NULL}
 	};
 
-	for (a = 0; builtintbl[a].type; a++)
-		if (_strcmp(info->argv[0], builtintbl[a].type) == 0)
+	for (a = 0; blt_tbl[a].type; a++)
+		if (_strcmp(ifn->argv[0], blt_tbl[a].type) == 0)
 		{
-			info->line_count++;
-			builtin = builtintbl[a].func(info);
+			ifn->count_line++;
+			blt = blt_tbl[a].func(ifn);
 			break;
 		}
-	return (builtin);
+	return (bnum_converterlt);
 }
 
 /**
@@ -80,28 +80,28 @@ int builtin_checker(info_t *ifn)
  * @info: info struct for paramenters and input
  *
  */
-void find_cmd(info_t *info)
+void cmd_finder(info_t *ifn)
 {
 	char *path = NULL;
 	int a, b;
 
-	info->path = info->argv[0];
-	if (info->linecount_flag == 1)
+	ifn->path = ifn->argv[0];
+	if (ifn->count_fline == 1)
 	{
-		info->line_count++;
-		info->linecount_flag = 0;
+		ifn->count_line++;
+		info->count_fline = 0;
 	}
-	for (a = 0, b = 0; info->arg[a]; a++)
-		if (!is_delim(info->arg[a], " \t\n"))
+	for (a = 0, b = 0; ifn->arg[a]; a++)
+		if (!is_delim(ifn->arg[a], " \t\n"))
 			b++;
 	if (!b)
 		return;
 
-	path = find_path(info, _getenv(info, "PATH="), info->argv[0]);
+	path = path_finder(ifn, _getenv(ifn, "PATH="), ifn->argv[0]);
 	if (path)
 	{
-		info->path = path;
-		fork_cmd(info);
+		ifn->path = path;
+		fork_cmd(ifn);
 	}
 	else
 	{
@@ -122,7 +122,7 @@ void find_cmd(info_t *info)
  *
  * Return: void
  */
-void fork_cmd(info_t *info)
+void fork_cmd(info_t *ifn)
 {
 	pid_t child_pid;
 
@@ -134,9 +134,9 @@ void fork_cmd(info_t *info)
 	}
 	if (child_pid == 0)
 	{
-		if (execve(info->path, info->argv, get_environ(info)) == -1)
+		if (execve(ifn->path, ifn->argv, gt_env(ifn)) == -1)
 		{
-			free_info(info, 1);
+			free_info(ifn, 1);
 			if (errno == EACCES)
 				exit(126);
 			exit(1);

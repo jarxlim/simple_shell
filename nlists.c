@@ -139,18 +139,18 @@ int detach_node(list_t **head, unsigned int ind)
  */
 void free_list(list_t **head_ptr)
 {
-	list_t *node, *follow, *head;
+	list_t *nodes, *follow, *head;
 
 	if (!head_ptr || !*head_ptr)
 		return;
 	head = *head_ptr;
-	node = head;
-	while (node)
+	nodes = head;
+	while (nodes)
 	{
-		follow = node->next;
-		free(node->string);
-		free(node);
-		node = follow;
+		follow = nodes->next;
+		free(nodes->str);
+		free(nodes);
+		nodes = follow;
 	}
 	*head_ptr = NULL;
 }
