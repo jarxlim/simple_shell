@@ -1,7 +1,7 @@
 #include "shell.h"
 /**
  * _strcpy - string copt function
- * @dest: the destination 
+ * @dest: the destination
  * @src: source of the string to be copied
  * Return: pointer to destination
  */
@@ -21,7 +21,7 @@ char *_strcpy(char *dest, char *src)
 	return (dest);
 }
 /**
- * _strdup - function to duplivate string 
+ * _strdup - function to duplivate string
  * @string: the given string to duplicate
  * Return: pointer to the string
  */

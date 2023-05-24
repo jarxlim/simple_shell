@@ -2,7 +2,7 @@
 
 /**
  * main - entry point
- * @arg: argument number
+ * @argm: argument number
  * @agv: argument array
  * Return: 0 if successs, 1 if unsuccessful
  */

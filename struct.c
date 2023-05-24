@@ -7,13 +7,13 @@
 void _format(info_t *ifn)
 {
 	ifn->path = NULL;
-        ifn->argc = 0;
+	ifn->argc = 0;
 	ifn->arv = NULL;
 	ifn->argv = NULL;
 }
 /**
  * _initiate - initializes structure
- * @info: argumnets
+ * @ifn: argumnets
  * @avt: argument array
  */
 void _initiate(info_t *ifn, char **avt)
@@ -44,7 +44,7 @@ void _initiate(info_t *ifn, char **avt)
 }
 /**
  * free_info - function to free struct fields
- * @info: struct address
+ * @ifn: struct address
  * @all: true if freeing all fields
  */
 void free_info(info_t *ifn, int all)

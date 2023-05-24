@@ -28,7 +28,7 @@ ssize_t _buffcmd(info_t *ifn, char **buff, size_t *size)
 				(*buff)[a - 1] = '\0';
 				a--;
 			}
-			ifn->count_fline= 1;
+			ifn->count_fline = 1;
 			comment_deleter(*buff);
 			append_list(ifn, *buff, ifn->hist_size++);
 			{
@@ -111,7 +111,7 @@ ssize_t buff_reader(info_t *ifn, char *buff, size_t *j)
  * _getline - get the next line of input from a std input
  * @ifn: paramete arguments
  * @p: pointer to the buffer
- * @size: size 
+ * @length: size
  * Return: length of the line
  */
 int _getline(info_t *ifn, char **p, size_t *length)
@@ -153,9 +153,7 @@ int _getline(info_t *ifn, char **p, size_t *length)
 	s = new_p;
 
 	if (length)
-	{
 		*length = sh;
-	}
 	*p = s;
 	return (sh);
 }

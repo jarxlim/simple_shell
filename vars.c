@@ -36,10 +36,10 @@ int chain_test(info_t *ifn, char *buff, size_t *c)
 }
 /**
  * c_checker - checks for chain strings
- * @info: the parameter 
+ * @ifn: th object of pinfo for  parameter
  * @buff: the char buffer
  * @c: current position in buff address
- * @j:buffer starting position 
+ * @j:buffer starting position
  * @size: length of buf
  */
 void c_checker(info_t *ifn, char *buff, size_t *c, size_t j, size_t size)

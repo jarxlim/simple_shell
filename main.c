@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * _shell - prints the shell 
+ * _shell - prints the shell
  * @ifn: input parameter
  * @agv:  array of arguments from the main function
  * Return: 0 on success , 1 on failure
@@ -43,11 +43,9 @@ int _shell(info_t *ifn, char **agv)
 	}
 	return (blt);
 }
-
 /**
- * find_builtin - function to find the built_in command
- * @info: the info struct for parameter and input
- *
+ * builtin_checker - function to find the built_in command
+ * @ifn: the object of pinfo struct for parameter and input
  * Return: -1, 0 ,-2 depending builtin not found,
  */
 int builtin_checker(info_t *ifn)
@@ -76,8 +74,8 @@ int builtin_checker(info_t *ifn)
 }
 
 /**
- * find_cmd - function to find the command in the path
- * @info: info struct for paramenters and input
+ * cmd_finder - function to find the command in the path
+ * @ifn: info struct for paramenters and input
  *
  */
 void cmd_finder(info_t *ifn)
@@ -115,11 +113,9 @@ void cmd_finder(info_t *ifn)
 		}
 	}
 }
-
 /**
  * fork_cmd - function to make the child process for the command
- * @info: info struct for inputs and parameters
- *
+ * @ifn: Oject of Pinfo struct for inputs and parameters
  * Return: void
  */
 void fork_cmd(info_t *ifn)
