@@ -42,7 +42,8 @@ char *_strncat(char *s1, char *s2, int amt)
 
 	a = 0;
 	b = 0;
-	for (a = 0; s1[a] != '\0'; a++);
+	for (a = 0; s1[a] != '\0'; a++)
+		;
 
 	while (s2[b] != '\0' && b < amt)
 	{
