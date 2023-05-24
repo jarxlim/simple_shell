@@ -58,15 +58,15 @@ void free_info(info_t *ifn, int all)
 			free(ifn->arv);
 		if (ifn->envp)
 			free_list(&(ifn->envp));
-		if (info->history)
-			free_list(&(info->history));
-		if (info->alias)
-			free_list(&(info->alias));
-		ffree(info->environ);
-			info->environ = NULL;
-		bfree((void **)info->cmd_buf);
-		if (info->readfd > 2)
-			close(info->readfd);
-		_putchar(BUF_FLUSH);
+		if (ifn->hist)
+			free_list(&(ifn->hist));
+		if (ifn->_alias)
+			free_list(&(ifn->_alias));
+		freef(ifn->environ);
+			ifn->environ = NULL;
+		bfree((void **)ifn->buffer_cmd);
+		if (ifn->file_reader > 2)
+			close(ifn->file_reader);
+		_putchar(BUFFER_FLUSH);
 	}
 }
