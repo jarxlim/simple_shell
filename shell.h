@@ -74,15 +74,15 @@ typedef struct liststr
  */
 typedef struct passinfo
 {
-	unsigned int line_count;
-	int err_num;
-	int line_count;
+	unsigned int count_line;
+	int num_err;
+	int count_fline;
 	char *file_name;
 	list_t *envp;
 	list_t *hist;
-	list_t *alias;
+	list_t *_alias;
 	char **environ;
-	int env_changed;
+	int change_env;
 	int stats;
 	char *arv;
         char **argv;

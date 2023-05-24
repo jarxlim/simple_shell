@@ -1,109 +1,114 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * _myhistory - function to show the history of the command we run
  * @info: struct info for potetal paraments
  * Return: always 0 as success
  */
-int _myhistory(info_t *info)
+int _history(info_t *info)
 {
-	print_list(info->history);
+	_lister(ifn->hist);
 	return (0);
 }
 
 /**
- * unset_alias - function to unset alliass to the string
- * @info: parameter struct info for inputs
- * @str: the string alias to be set
+ * unset_alias - unset alliass to the string
+ * @info: parameter 
+ * @str: the strin used be set
  *
  * Return: Always 0 on success, 1 on error
  */
-int unset_alias(info_t *info, char *str)
+int reset_alias(info_t *ifn, char *str)
 {
 	char *point, a;
 	int reset;
 
 	point = _strchr(str, '=');
 	if (!point)
+	{
 		return (1);
+	}
 	a = *point;
 	*point = 0;
-	reset = delete_node_at_index(&(info->alias),
-		get_node_index(info->alias, node_starts_with(info->alias, str, -1)));
+	reset = detach_node(&(ifn->_alias),
+		find_node(ifn->_alias, node_list(ifn->_alias, str, -1)));
 	*point = a;
 	return (reset);
 }
 
 /**
- * set_alias - function to set all alias to string
- * @info: struct info for paramenters
- * @str: the strinf for alisa
- * Return: 0 for success, 1 for failure
+ * set_alias - set all alias to string
+ * @info: for paramenters
+ * @str: the string to use
+ * Return: 0on success, 1 for failure
  */
-int set_alias(info_t *info, char *str)
+int alias_setter(info_t *ifn, char *str)
 {
 	char *point;
 
 	point = _strchr(str, '=');
 	if (!point)
+	{
 		return (1);
+	}
 	if (!*++point)
-		return (unset_alias(info, str));
-
-	unset_alias(info, str);
-	return (add_node_end(&(info->alias), str, 0) == NULL);
+	{
+		return (reset_alias(ifn, str));
+	}
+	reset_alias(ifn, str);
+	return (append_node(&(ifn->_alias), str, 0) == NULL);
 }
 
 /**
- * print_alias - function to print all alias string
- * @node: the pointer to the node of alias stack
- * Return: 0 for success, 1 for failure
+ * print_alias - print all alias 
+ * @node:node of alias stack
+ * Return: 0 on success, 1 for failure
  */
-int print_alias(list_t *node)
+int w_alias(list_t *nodes)
 {
 	char *point = NULL, *c = NULL;
 
-	if (node)
+	if (nodes)
 	{
-		point = _strchr(node->str, '=');
-		for (c = node->str; c <= point; c++)
+		point = _strchr(nodes->str, '=');
+		for (c = nodes->str; c <= point; c++)
 			_putchar(*c);
 		_putchar('\'');
-		_puts(point + 1);
-		_puts("'\n");
+		_putstr(point + 1);
+		_putstr("'\n");
 		return (0);
 	}
 	return (1);
 }
 
 /**
- * _myalias - function to check the details for alias (man alias)
- * @info: Struct info for details
- *  Return: 0 for success
+ * _myalias - check the details for alias 
+ * @info:params
+ *  Return: 0on success
  */
-int _myalias(info_t *info)
+int get_alias(info_t *ifn)
 {
 	int a = 0;
 	char *point = NULL;
-	list_t *node = NULL;
+	list_t *nodes = NULL;
 
-	if (info->argc == 1)
+	if (ifn->argc == 1)
 	{
-		node = info->alias;
-		while (node)
+		nodes = ifn->_alias;
+		while (nodes)
 		{
-			print_alias(node);
-			node = node->next;
+			w_alias(nodes);
+			nodes = nodes->next;
 		}
 		return (0);
 	}
-	for (a = 1; info->argv[a]; a++)
+	for (a = 1; ifn->argv[a]; a++)
 	{
-		point = _strchr(info->argv[a], '=');
+		point = _strchr(ifn->argv[a], '=');
 		if (point)
-			set_alias(info, info->argv[a]);
+			alias_setter(ifn, ifn->argv[a]);
 		else
-			print_alias(node_starts_with(info->alias, info->argv[a], '='));
+			w_alias(node_list(ifn->_alias, ifn->argv[a], '='));
 	}
 	return (0);
 }

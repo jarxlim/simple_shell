@@ -1,12 +1,12 @@
-#include "main.h"
+#include "shell.h"
 /**
- * _myenv - function to print the current env
- * @info: Structure contains the arguments
+ * _myenv - print the current env
+ * @info: contains the arguments
  * Return: Always 0
  */
-int _myenv(info_t *info)
+int _envron(info_t *ifn)
 {
-	print_list_str(info->env);
+	list_printer(ifn->envp);
 	return (0);
 }
 /**
@@ -37,15 +37,17 @@ char *_getenv(info_t *ifn, const char *env_name)
  * @info: Struct cntaining arguments
  *  Return: 0 as success
  */
-int _mysetenv(info_t *info)
+int my_setenv(info_t *ifn)
 {
-	if (info->argc != 3)
+	if (ifn->argc != 3)
 	{
-		_eputs("Incorrect number of arguements\n");
+		_prints("Incorrect number of arguements\n");
 		return (1);
 	}
-	if (_setenv(info, info->argv[1], info->argv[2]))
+	if (_setenv(ifn, ifn->argv[1], ifn->argv[2]))
+	{
 		return (0);
+	}
 	return (1);
 }
 /**
@@ -53,18 +55,19 @@ int _mysetenv(info_t *info)
  * @info: Structure contain the argments
  *  Return: Always 0
  */
-int _myunsetenv(info_t *info)
+int my_unsetenv(info_t *ifn)
 {
 	int j;
 
-	if (info->argc == 1)
+	if (ifn->argc == 1)
 	{
-		_eputs("Too few arguements.\n");
+		_prints("Too few arguements.\n");
 		return (1);
 	}
-	for (j = 1; j <= info->argc; j++)
-		_unsetenv(info, info->argv[j]);
-
+	for (j = 1; j <= ifn->argc; j++)
+	{
+		_unsetenv(ifn, ifn->argv[j]);
+	}
 	return (0);
 }
 /**

@@ -76,19 +76,19 @@ list_t *append_node(list_t **head, const char *string, int numbers)
 }
 
 /**
- * print_list_string - function to print str element list only
- * @h: pointer to the head
- * Return: nnumbersber of element printed
+ * print_list_string - print string element list only
+ * @p: pointer
+ * Return: element printed
  */
-size_t print_list_string(const list_t *h)
+size_t list_printer(const list_t *p)
 {
 	size_t j = 0;
 
-	while (h)
+	while (p)
 	{
-		_puts(h->string ? h->str : "(nil)");
-		_puts("\n");
-		h = h->next;
+		_putstr(p->string ? p->str : "(nil)");
+		_putstr("\n");
+		p = p->next;
 		j++;
 	}
 	return (j);

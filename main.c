@@ -55,11 +55,11 @@ int builtin_checker(info_t *ifn)
 	int a, blt = -1;
 	built_t blt_tbl[] = {
 		{"exit", _exit},
-		{"alias", _myalias},
-		{"env", _myenv},
-		{"cd", _mycd},
-		{"help", _myhelp},
-		{"history", _myhistory},
+		{"alias", get_alias},
+		{"env", _envron},
+		{"cd", _cmd},
+		{"help", _help},
+		{"history", _history},
 		{"setenv", _mysetenv},
 		{"unsetenv", _myunsetenv},
 		{NULL, NULL}

@@ -32,45 +32,45 @@ int _strtoint(char *s)
 }
 
 /**
- * print_error -function to print an error message
- * @info: info struct
- * @estr: string containing type if error
+ * print_error - print an error message
+ * @info: param
+ * @estr: string containing error
  * Return: 0for success and -1 for error
  */
-void print_error(info_t *info, char *estr)
+void error_printer(info_t *ifn, char *err_str)
 {
-	_eputs(info->fname);
-	_eputs(": ");
-	print_d(info->line_count, STDERR_FILENO);
-	_eputs(": ");
-	_eputs(info->argv[0]);
-	_eputs(": ");
-	_eputs(estr);
+	_prints(ifn->file_name);
+	_prints(": ");
+	write_dec(ifn->count_line, STDERR_FILENO);
+	_prints(": ");
+	_prints(info->argv[0]);
+	_prints(": ");
+	_prints(err_str);
 }
 
 /**
- * print_d - function to print a decimal number
- * @input: number to be prit=nted
- * @fd: the filede to write to
+ * print_d - print a decimal number
+ * @input: number to be used
+ * @fd: the file use
  *
- * Return: number of characters printed
+ * Return: number of chars
  */
-int print_d(int input, int fd)
+int write_dec(int entr, int fdx)
 {
 	int (*__putchar)(char) = _putchar;
 	int a, counter = 0;
 	unsigned int _abs, current;
 
-	if (fd == STDERR_FILENO)
-		__putchar = _eputchar;
-	if (input < 0)
+	if (fdx == STDERR_FILENO)
+		__putchar = printchar;
+	if (entr < 0)
 	{
-		_abs = -input;
+		_abs = -entr;
 		__putchar('-');
 		counter++;
 	}
 	else
-		_abs = input;
+		_abs = entr;
 	current = _abs;
 	for (a = 1000000000; a > 1; a /= 10)
 	{

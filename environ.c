@@ -1,18 +1,18 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * get_environ - function to get the copy of environmental cms
  * @info: Struct info for arguments
  * Return: copy of the environ
  */
-char **get_environ(info_t *info)
+char **gt_env(info_t *ifn)
 {
-	if (!info->environ || info->env_changed)
+	if (!ifn->environ || ifn->change_env)
 	{
-		info->environ = list_to_strings(info->env);
-		info->env_changed = 0;
+		ifn->environ = list_string(ifn->envp);
+		ifn->change_env = 0;
 	}
-	return (info->environ);
+	return (ifn->environ);
 }
 
 /**
@@ -22,9 +22,9 @@ char **get_environ(info_t *info)
  *
  * Return: 0 as success
  */
-int _unsetenv(info_t *info, char *var)
+int _unsetenv(info_t *ifn, char *var)
 {
-	list_t *nodes = info->env;
+	list_t *nodes = ifn->envp;
 	size_t a = 0;
 	char *k;
 
@@ -33,18 +33,18 @@ int _unsetenv(info_t *info, char *var)
 
 	while (nodes)
 	{
-		k = starts_with(nodes->str, var);
+		k = _leet(nodes->str, var);
 		if (k && *k == '=')
 		{
-			info->env_changed = delete_node_at_index(&(info->env), a);
+			ifn->change_env = detach_node(&(ifn->envp), a);
 			a = 0;
-			nodes = info->env;
+			nodes = ifn->envp;
 			continue;
 		}
 		nodes = nodes->next;
 		a++;
 	}
-	return (info->env_changed);
+	return (ifn->change_env);
 }
 
 /**
@@ -54,35 +54,35 @@ int _unsetenv(info_t *info, char *var)
  * @value: the string environmental variables value
  *  Return: 0 as success
  */
-int _setenv(info_t *info, char *var, char *value)
+int _setenv(info_t *ifn, char *var, char *val)
 {
 	char *buffer = NULL, *k;
 	list_t *nodes;
 
-	if (!var || !value)
+	if (!var || !val)
 		return (0);
 
-	buffer = malloc(_strlen(var) + _strlen(value) + 2);
+	buffer = malloc(_strlen(var) + _strlen(val) + 2);
 	if (!buffer)
 		return (1);
 	_strcpy(buffer, var);
 	_strcat(buffer, "=");
-	_strcat(buffer, value);
-	nodes = info->env;
+	_strcat(buffer, val);
+	nodes = ifn->envp;
 	while (nodes)
 	{
-		k = starts_with(nodes->str, var);
+		k = _leet(nodes->str, var);
 		if (k && *k == '=')
 		{
 			free(nodes->str);
 			nodes->str = buffer;
-			info->env_changed = 1;
+			ifn->change_env = 1;
 			return (0);
 		}
 		nodes = nodes->next;
 	}
-	add_node_end(&(info->env), buffer, 0);
+	append_node(&(ifn->envp), buffer, 0);
 	free(buffer);
-	info->env_changed = 1;
+	ifn->change_env = 1;
 	return (0);
 }

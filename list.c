@@ -54,17 +54,17 @@ char **list_to_strings(list_t *head)
  * @head: pointer to first node of the list
  * Return: size of the list
  */
-size_t print_list(const list_t *head)
+size_t _lister(const list_t *head)
 {
 	size_t a = 0;
 
 	while (head)
 	{
-		_puts(convert_number(head->num, 10, 0));
+		_putstr(num_converter(head->numbers, 10, 0));
 		_putchar(':');
 		_putchar(' ');
-		_puts(head->str ? head->str : "(nil)");
-		_puts("\n");
+		_putstr(head->str ? head->str : "(nil)");
+		_putstr("\n");
 		head = head->next;
 		a++;
 	}
@@ -98,14 +98,16 @@ list_t *node_list(list_t *nodes, char *stn, char c)
  * @node: pointer to the node
  * Return: index of node if found or -1 when not found
  */
-ssize_t get_node_index(list_t *head, list_t *node)
+ssize_t find_node(list_t *head, list_t *nodes)
 {
 	size_t a = 0;
 
 	while (head)
 	{
-		if (head == node)
+		if (head == nodes)
+		{
 			return (a);
+		}
 		head = head->next;
 		a++;
 	}
