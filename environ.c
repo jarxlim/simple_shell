@@ -1,8 +1,8 @@
 #include "shell.h"
 
 /**
- * get_environ - function to get the copy of environmental cms
- * @info: Struct info for arguments
+ * gt_env - function to get the copy of environmental cms
+ * @ifn: Object of pinfo struct info for arguments
  * Return: copy of the environ
  */
 char **gt_env(info_t *ifn)
@@ -17,7 +17,7 @@ char **gt_env(info_t *ifn)
 
 /**
  * _unsetenv - function to remove environment variable
- * @info: Structure halding args
+ * @ifn: Object of the pinfo structure halding args
  * @var: the string env var property
  *
  * Return: 0 as success
@@ -49,9 +49,9 @@ int _unsetenv(info_t *ifn, char *var)
 
 /**
  * _setenv - fnction to add a new environment variable
- * @info: Struct holding args
+ * @ifn: Struct holding args
  * @var: the string enviroonmental variable
- * @value: the string environmental variables value
+ * @val: the string environmental variables value
  *  Return: 0 as success
  */
 int _setenv(info_t *ifn, char *var, char *val)

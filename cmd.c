@@ -1,8 +1,8 @@
 #include "shell.h"
 
 /**
- * is_cmd - funtion to check if a file is an executable command
- * @info: the info struct that contain argus
+ * check_cmd - funtion to check if a file is an executable command
+ * @ifn: theibject of  pinfo struct that contain argus
  * @path: path to the file to be checked
  * Return: 1 for true, 0 for false
  */
@@ -22,8 +22,8 @@ int check_cmd(info_t *ifn, char *path)
 }
 
 /**
- * dup_chars - function to duplicate characters
- * @pathstr: the PATH string to check in
+ * chars_dup - function to duplicate characters
+ * @ptstr: the PATH string to check in
  * @start: starting point
  * @stop: stopping point
  *
@@ -35,7 +35,8 @@ char *chars_dup(char *ptstr, int start, int stop)
 	int a = 0, p = 0;
 
 	for (p = 0, a = start; a < stop; a++)
-	{	if (ptstr[a] != ':')
+	{
+		if (ptstr[a] != ':')
 			buffer[p++] = ptstr[a];
 	}
 	buffer[p] = 0;
@@ -43,9 +44,9 @@ char *chars_dup(char *ptstr, int start, int stop)
 }
 
 /**
- * find_path - function to find cmand in the PATH string
- * @info: the info struct for arguments
- * @pathstr: the PATH string to search
+ * path_finder - function to find cmand in the PATH string
+ * @ifn: the oject of pinfo struct for arguments
+ * @ptstr: the PATH string to search
  * @cmd: the input command for checking
  *
  * Return: full path of cmd if found or NULL
