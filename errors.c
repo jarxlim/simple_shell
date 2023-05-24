@@ -11,7 +11,7 @@ int _strtoint(char *s)
 	unsigned long int output = 0;
 
 	if (*s == '+')
-	{	
+	{
 		s++;
 	}
 	for (a = 0;  s[a] != '\0'; a++)
@@ -32,10 +32,10 @@ int _strtoint(char *s)
 }
 
 /**
- * print_error - print an error message
- * @info: param
- * @estr: string containing error
- * Return: 0for success and -1 for error
+ * error_printer - function to help us to print an error message
+ * @ifn: the object if pinfo struct containing parramennters
+ * @err_str: string containing error
+ * Return: 0 for success and -1 for error
  */
 void error_printer(info_t *ifn, char *err_str)
 {
@@ -49,11 +49,10 @@ void error_printer(info_t *ifn, char *err_str)
 }
 
 /**
- * print_d - print a decimal number
- * @input: number to be used
- * @fd: the file use
- *
- * Return: number of chars
+ * write_dec - print a decimal number
+ * @entr: number to be used
+ * @fdx: the file use
+  * Return: number of chars when success
  */
 int write_dec(int entr, int fdx)
 {

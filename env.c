@@ -1,8 +1,8 @@
 #include "shell.h"
 /**
- * _myenv - print the current env
- * @info: contains the arguments
- * Return: Always 0
+ * _envron - function to print the current environmental vars
+ * @ifn: Object of struct oinfo to holed the arguments
+ * Return: Always 0 when successfull
  */
 int _envron(info_t *ifn)
 {
@@ -10,10 +10,11 @@ int _envron(info_t *ifn)
 	return (0);
 }
 /**
- * _getenv - function to get the value of envs
+ * _getenv - function to get the value of environmental vars
  * @ifn: structure containing aruments
- * @env_name: env name 
- * Return: the value of env 
+ * @env_name: env name
+ * Return: the value of environmental variableet number
+ *
  */
 char *_getenv(info_t *ifn, const char *env_name)
 {
@@ -22,7 +23,7 @@ char *_getenv(info_t *ifn, const char *env_name)
 
 	while (nodes)
 	{
-		c =_leet(nodes->str, env_name);
+		c = _leet(nodes->str, env_name);
 		if (c && *c)
 		{
 			return (c);
@@ -32,10 +33,9 @@ char *_getenv(info_t *ifn, const char *env_name)
 	return (NULL);
 }
 /**
- * _mysetenv -functin to initialize a new environment variable,
- *             or modify an existing one
- * @info: Struct cntaining arguments
- *  Return: 0 as success
+ * my_setenv -functin to initialize a new environment variable,
+ * @ifn: object of pinfo struct cntaining arguments
+ *  Return: returns 0 when successfull
  */
 int my_setenv(info_t *ifn)
 {
@@ -51,8 +51,8 @@ int my_setenv(info_t *ifn)
 	return (1);
 }
 /**
- * _myunsetenv -fnct to remove an environment variable
- * @info: Structure contain the argments
+ * my_unsetenv -fnct to remove an environment variable
+ * @ifn: Structure contain the argments
  *  Return: Always 0
  */
 int my_unsetenv(info_t *ifn)
