@@ -32,18 +32,18 @@ int _strtoint(char *s)
 }
 
 /**
- * error_printer - function to help us to print an error message
- * @ifn: the object if pinfo struct containing parramennters
+ * error_printer - help print an error message
+ * @ents: the param
  * @err_str: string containing error
  * Return: 0 for success and -1 for error
  */
-void error_printer(info_t *ifn, char *err_str)
+void error_printer(set_t *ents, char *err_str)
 {
-	_prints(ifn->file_name);
+	_prints(ents->file_name);
 	_prints(": ");
-	write_dec(ifn->count_line, STDERR_FILENO);
+	write_dec(ents->count_line, STDERR_FILENO);
 	_prints(": ");
-	_prints(ifn->argv[0]);
+	_prints(ents->argv[0]);
 	_prints(": ");
 	_prints(err_str);
 }
@@ -119,8 +119,8 @@ char *num_converter(long int num, int base, int flag)
 }
 
 /**
- * comment_deleter - function to replace first
- * @buffer: address of the string tobe modified
+ * comment_deleter - replace first
+ * @buffer: string tobe modified
  * Return: Always 0;
  */
 void comment_deleter(char *buffer)

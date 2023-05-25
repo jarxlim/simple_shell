@@ -60,8 +60,8 @@ int _pchar(char chr, int file_desc)
 	return (1);
 }
 /**
- *_printsf - function that prints an input stringing
- * @string: input string to be printed
+ *_printsf - prints an input stringing
+ * @string: input string to be used
  * @filename: file_descriptor
   * Return: the number of chars printed
  */

@@ -1,30 +1,29 @@
 #include "shell.h"
 
 /**
- * gt_env - function to get the copy of environmental cms
- * @ifn: Object of pinfo struct info for arguments
+ * gt_env - get the copy of environmental cms
+ * @ents: arguments
  * Return: copy of the environ
  */
-char **gt_env(info_t *ifn)
+char **gt_env(set_t *ents)
 {
-	if (!ifn->environ || ifn->change_env)
+	if (!ents->environ || ents->change_env)
 	{
-		ifn->environ = list_string(ifn->envp);
-		ifn->change_env = 0;
+		ents->environ = list_string(ents->envp);
+		ents->change_env = 0;
 	}
-	return (ifn->environ);
+	return (ents->environ);
 }
 
 /**
- * _unsetenv - function to remove environment variable
- * @ifn: Object of the pinfo structure halding args
+ * _unsetenv - remove environment variable
+ * @ents: param
  * @var: the string env var property
- *
  * Return: 0 as success
  */
-int _unsetenv(info_t *ifn, char *var)
+int _unsetenv(set_t *ents, char *var)
 {
-	list_t *nodes = ifn->envp;
+	list_t *nodes = ents->envp;
 	size_t a = 0;
 	char *k;
 
@@ -36,25 +35,25 @@ int _unsetenv(info_t *ifn, char *var)
 		k = _leet(nodes->str, var);
 		if (k && *k == '=')
 		{
-			ifn->change_env = detach_node(&(ifn->envp), a);
+			ents->change_env = detach_node(&(ents->envp), a);
 			a = 0;
-			nodes = ifn->envp;
+			nodes = ents->envp;
 			continue;
 		}
 		nodes = nodes->next;
 		a++;
 	}
-	return (ifn->change_env);
+	return (ents->change_env);
 }
 
 /**
- * _setenv - fnction to add a new environment variable
- * @ifn: Struct holding args
- * @var: the string enviroonmental variable
- * @val: the string environmental variables value
+ * _setenv - adds a new environment variable
+ * @ents: param
+ * @var: the string paramm
+ * @val: the env value
  *  Return: 0 as success
  */
-int _setenv(info_t *ifn, char *var, char *val)
+int _setenv(set_t *ents, char *var, char *val)
 {
 	char *buffer = NULL, *k;
 	list_t *nodes;
@@ -68,7 +67,7 @@ int _setenv(info_t *ifn, char *var, char *val)
 	_strcpy(buffer, var);
 	_strcat(buffer, "=");
 	_strcat(buffer, val);
-	nodes = ifn->envp;
+	nodes = ents->envp;
 	while (nodes)
 	{
 		k = _leet(nodes->str, var);
@@ -76,13 +75,13 @@ int _setenv(info_t *ifn, char *var, char *val)
 		{
 			free(nodes->str);
 			nodes->str = buffer;
-			ifn->change_env = 1;
+			ents->change_env = 1;
 			return (0);
 		}
 		nodes = nodes->next;
 	}
-	append_node(&(ifn->envp), buffer, 0);
+	append_node(&(ents->envp), buffer, 0);
 	free(buffer);
-	ifn->change_env = 1;
+	ents->change_env = 1;
 	return (0);
 }

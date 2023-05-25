@@ -1,22 +1,22 @@
 #include "shell.h"
 /**
- * _history - function to show the history of the command we run
- * @ifn: struct from info_t tpe for potetal paraments
+ * _history - history of the command we run
+ * @ents: set_t paraments
  * Return: always 0 as success
  */
-int _history(info_t *ifn)
+int _history(set_t *ents)
 {
-	_lister(ifn->hist);
+	_lister(ents->hist);
 	return (0);
 }
 
 /**
- * reset_alias - function to unset alliass to the string
- * @ifn: structure from info_t type parameter
- * @str: the string used be set
+ * reset_alias - unset alliass to the string
+ * @ents: set_t type parameter
+ * @str: string used be set
  * Return: Always 0 when successfull, 1 when failsr
  */
-int reset_alias(info_t *ifn, char *str)
+int reset_alias(set_t *ents, char *str)
 {
 	char *point, a;
 	int reset;
@@ -28,18 +28,18 @@ int reset_alias(info_t *ifn, char *str)
 	}
 	a = *point;
 	*point = 0;
-	reset = detach_node(&(ifn->_alias),
-		find_node(ifn->_alias, node_list(ifn->_alias, str, -1)));
+	reset = detach_node(&(ents->_alias),
+		find_node(ents->_alias, node_list(ents->_alias, str, -1)));
 	*point = a;
 	return (reset);
 }
 /**
- * alias_setter - function used to set all alias to string
- * @ifn: for paramenters
+ * alias_setter - set all alias to string
+ * @ents: for paramenters
  * @str: the string to use
  * Return: 0 when successfull, 1 when fails
  */
-int alias_setter(info_t *ifn, char *str)
+int alias_setter(set_t *ents, char *str)
 {
 	char *point;
 
@@ -50,13 +50,13 @@ int alias_setter(info_t *ifn, char *str)
 	}
 	if (!*++point)
 	{
-		return (reset_alias(ifn, str));
+		return (reset_alias(ents, str));
 	}
-	reset_alias(ifn, str);
-	return (append_node(&(ifn->_alias), str, 0) == NULL);
+	reset_alias(ents, str);
+	return (append_node(&(ents->_alias), str, 0) == NULL);
 }
 /**
- * w_alias - function for writing all alias
+ * w_alias - for writing all alias
  * @nodes: nodes of alias stack
  * Return: 0 when successfull, 1 when fails
  */
@@ -77,19 +77,19 @@ int w_alias(list_t *nodes)
 	return (1);
 }
 /**
- * get_alias - function to check the details for alias
- * @ifn: object of info_t structure to be used
+ * get_alias - check the details for alias
+ * @ents: set_t structure to be used
  *  Return: 0 when successfull
  */
-int get_alias(info_t *ifn)
+int get_alias(set_t *ents)
 {
 	int a = 0;
 	char *point = NULL;
 	list_t *nodes = NULL;
 
-	if (ifn->argc == 1)
+	if (ents->argc == 1)
 	{
-		nodes = ifn->_alias;
+		nodes = ents->_alias;
 		while (nodes)
 		{
 			w_alias(nodes);
@@ -97,13 +97,13 @@ int get_alias(info_t *ifn)
 		}
 		return (0);
 	}
-	for (a = 1; ifn->argv[a]; a++)
+	for (a = 1; ents->argv[a]; a++)
 	{
-		point = _strchr(ifn->argv[a], '=');
+		point = _strchr(ents->argv[a], '=');
 		if (point)
-			alias_setter(ifn, ifn->argv[a]);
+			alias_setter(ents, ents->argv[a]);
 		else
-			w_alias(node_list(ifn->_alias, ifn->argv[a], '='));
+			w_alias(node_list(ents->_alias, ents->argv[a], '='));
 	}
 	return (0);
 }

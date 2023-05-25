@@ -1,8 +1,8 @@
 #include "shell.h"
 /**
- * list_length -function to return the length of linked list
- * @p: pointer to first node in tyhe list
- * Return: size of linked list
+ * list_length - return the length of linked list
+ * @p: first node in tyhe list
+ * Return: size of list
  */
 size_t list_length(const list_t *p)
 {
@@ -16,7 +16,7 @@ size_t list_length(const list_t *p)
 	return (i);
 }
 /**
- * list_string - functtion to return an array of strings of the list
+ * list_string - return an array of strings of the list
  * @head: pointer to first node of the list
  * Return: array of strings in the list
  */
@@ -50,7 +50,7 @@ char **list_string(list_t *head)
 	return (string);
 }
 /**
- * _lister - function to print all elements of a list_t linked list
+ * _lister - print all elements of a list_t linked list
  * @head: pointer to first node of the list
  * Return: size of the list
  */
@@ -93,7 +93,7 @@ list_t *node_list(list_t *nodes, char *stn, char c)
 	return (NULL);
 }
 /**
- *find_node - function to get the index of a node
+ *find_node - get the index of a node
  * @head: pointer to list head
  * @nodes: pointer to the node
  * Return: index of node if found or -1 when not found

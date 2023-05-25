@@ -1,16 +1,16 @@
 #include "shell.h"
 
 /**
- * check_cmd - funtion to check if a file is an executable command
- * @ifn: theibject of  pinfo struct that contain argus
- * @path: path to the file to be checked
- * Return: 1 for true, 0 for false
+ * check_cmd - check if a file is an executable command
+ * @ents: param
+ * @path: path to the file
+ * Return: 1 f true, 0 if false
  */
-int check_cmd(info_t *ifn, char *path)
+int check_cmd(set_t *ents, char *path)
 {
 	struct stat str;
 
-	(void)ifn;
+	(void)ents;
 	if (!path || stat(path, &str))
 		return (0);
 
@@ -22,7 +22,7 @@ int check_cmd(info_t *ifn, char *path)
 }
 
 /**
- * chars_dup - function to duplicate characters
+ * chars_dup - duplicate characters
  * @ptstr: the PATH string to check in
  * @start: starting point
  * @stop: stopping point
@@ -44,24 +44,27 @@ char *chars_dup(char *ptstr, int start, int stop)
 }
 
 /**
- * path_finder - function to find cmand in the PATH string
- * @ifn: the oject of pinfo struct for arguments
+ * path_finder - find cmand in the PATH string
+ * @ents: param
  * @ptstr: the PATH string to search
- * @cmd: the input command for checking
- *
- * Return: full path of cmd if found or NULL
+ * @cmd: command for checking
+ * Return: path of cmd if found or NULL
  */
-char *path_finder(info_t *ifn, char *ptstr, char *cmd)
+char *path_finder(set_t *ents, char *ptstr, char *cmd)
 {
 	int a = 0, current_pos = 0;
 	char *path;
 
 	if (!ptstr)
+	{
 		return (NULL);
+	}
 	if ((_strlen(cmd) > 2) && _leet(cmd, "./"))
 	{
-		if (check_cmd(ifn, cmd))
+		if (check_cmd(ents, cmd))
+		{
 			return (cmd);
+		}
 	}
 	while (1)
 	{
@@ -75,7 +78,7 @@ char *path_finder(info_t *ifn, char *ptstr, char *cmd)
 				_strcat(path, "/");
 				_strcat(path, cmd);
 			}
-			if (check_cmd(ifn, path))
+			if (check_cmd(ents, path))
 				return (path);
 			if (!ptstr[a])
 				break;

@@ -17,8 +17,8 @@ char *_memfill(char *p, char c, unsigned int m)
 	return (p);
 }
 /**
- * freef - function free a pointer of string
- * @point: pointer to string to free
+ * freef - free a pointer of string
+ * @point: pointer to string
  */
 void freef(char **point)
 {

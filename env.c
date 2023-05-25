@@ -1,24 +1,24 @@
 #include "shell.h"
 /**
- * _envron - function to print the current environmental vars
- * @ifn: Object of struct oinfo to holed the arguments
- * Return: Always 0 when successfull
+ * _envron - print the current environmental vars
+ * @ents: param to holed the arguments
+ * Return: Always 0
  */
-int _envron(info_t *ifn)
+int _envron(set_t *ents)
 {
-	list_printer(ifn->envp);
+	list_printer(ents->envp);
 	return (0);
 }
 /**
- * _getenv - function to get the value of environmental vars
- * @ifn: structure containing aruments
+ * _getenv - get the value of environment vars
+ * @ents: param containing aruments
  * @env_name: env name
- * Return: the value of environmental variableet number
+ * Return: the value
  *
  */
-char *_getenv(info_t *ifn, const char *env_name)
+char *_getenv(set_t *ents, const char *env_name)
 {
-	list_t *nodes = ifn->envp;
+	list_t *nodes = ents->envp;
 	char *c;
 
 	while (nodes)
@@ -33,55 +33,55 @@ char *_getenv(info_t *ifn, const char *env_name)
 	return (NULL);
 }
 /**
- * my_setenv -functin to initialize a new environment variable,
- * @ifn: object of pinfo struct cntaining arguments
- *  Return: returns 0 when successfull
+ * my_setenv - initialize a new environment variable,
+ * @ents: param with arguments
+ *  Return: returns 0 on success
  */
-int my_setenv(info_t *ifn)
+int my_setenv(set_t *ents)
 {
-	if (ifn->argc != 3)
+	if (ents->argc != 3)
 	{
 		_prints("Incorrect number of arguements\n");
 		return (1);
 	}
-	if (_setenv(ifn, ifn->argv[1], ifn->argv[2]))
+	if (_setenv(ents, ents->argv[1], ents->argv[2]))
 	{
 		return (0);
 	}
 	return (1);
 }
 /**
- * my_unsetenv -fnct to remove an environment variable
- * @ifn: Structure contain the argments
+ * my_unsetenv - remove an environment variable
+ * @ents: param contain the argments
  *  Return: Always 0
  */
-int my_unsetenv(info_t *ifn)
+int my_unsetenv(set_t *ents)
 {
 	int j;
 
-	if (ifn->argc == 1)
+	if (ents->argc == 1)
 	{
 		_prints("Too few arguements.\n");
 		return (1);
 	}
-	for (j = 1; j <= ifn->argc; j++)
+	for (j = 1; j <= ents->argc; j++)
 	{
-		_unsetenv(ifn, ifn->argv[j]);
+		_unsetenv(ents, ents->argv[j]);
 	}
 	return (0);
 }
 /**
  * env_lister - define environmental list
- * @ifn: contains argument
+ * @ents: contains argument
  * Return: return 0 on success
  */
-int env_lister(info_t *ifn)
+int env_lister(set_t *ents)
 {
 	size_t index;
 	list_t *nodes = NULL;
 
 	for (index = 0; environ[index]; index++)
 		append_node(&nodes, environ[index], 0);
-	ifn->envp = nodes;
+	ents->envp = nodes;
 	return (0);
 }

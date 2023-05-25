@@ -1,37 +1,37 @@
 #include "shell.h"
 
 /**
- * get_exit - function to help us to exit the shell
- * @ifn: object from inf0_t sctruct
- *  Return: 1 when successull and -2 for failure
+ * get_exit - help us to exit the shell
+ * @ents: parram
+ * Return: 1 on successull and -2 for failure
  */
-int get_exit(info_t *ifn)
+int get_exit(set_t *ents)
 {
 	int exitfinder;
 
-	if (ifn->argv[1])
+	if (ents->argv[1])
 	{
-		exitfinder = _strtoint(ifn->argv[1]);
+		exitfinder = _strtoint(ents->argv[1]);
 		if (exitfinder == -1)
 		{
-			ifn->stats = 2;
-			error_printer(ifn, "Invalid number: ");
-			_prints(ifn->argv[1]);
+			ents->stats = 2;
+			error_printer(ents, "Invalid number: ");
+			_prints(ents->argv[1]);
 			printchar('\n');
 			return (1);
 		}
-		ifn->num_err = _strtoint(ifn->argv[1]);
+		ents->num_err = _strtoint(ents->argv[1]);
 		return (-2);
 	}
-	ifn->num_err = -1;
+	ents->num_err = -1;
 	return (-2);
 }
 /**
- * _cmd - function to change the directory using chdir function
- * @ifn: struct with tyoe info_t to hold parameter protptypes
- *  Return: returns 0 when successull
+ * _cmd - change the directory using chdir function
+ * @ents: set_t parameter protptypes
+ *  Return: returns 0 on successull
  */
-int _cmd(info_t *ifn)
+int _cmd(set_t *ents)
 {
 	char *p, *directory, buffer[1024];
 	int changedir;
@@ -39,50 +39,50 @@ int _cmd(info_t *ifn)
 	p = getcwd(buffer, 1024);
 	if (!p)
 		_putstr("TODO: >>getcwd failure msg here<<\n");
-	if (!ifn->argv[1])
+	if (!ents->argv[1])
 	{
-		directory = _getenv(ifn, "HOME=");
+		directory = _getenv(ents, "HOME=");
 		if (!directory)
-			changedir = chdir((directory = _getenv(ifn, "PWD=")) ? directory : "/");
+			changedir = chdir((directory = _getenv(ents, "PWD=")) ? directory : "/");
 		else
 			changedir = chdir(directory);
 	}
-	else if (_strcmp(ifn->argv[1], "-") == 0)
+	else if (_strcmp(ents->argv[1], "-") == 0)
 	{
-		if (!_getenv(ifn, "OLDPWD="))
+		if (!_getenv(ents, "OLDPWD="))
 		{
 			_putstr(p);
 			_putchar('\n');
 			return (1);
 		}
-		_putstr(_getenv(ifn, "OLDPWD=")), _putchar('\n');
-		changedir = chdir((directory = _getenv(ifn, "OLDPWD=")) ? directory : "/");
+		_putstr(_getenv(ents, "OLDPWD=")), _putchar('\n');
+		changedir = chdir((directory = _getenv(ents, "OLDPWD=")) ? directory : "/");
 	}
 	else
-		changedir = chdir(ifn->argv[1]);
+		changedir = chdir(ents->argv[1]);
 	if (changedir == -1)
 	{
-		error_printer(ifn, "can't cd to ");
-		_prints(ifn->argv[1]), printchar('\n');
+		error_printer(ents, "can't cd to ");
+		_prints(ents->argv[1]), printchar('\n');
 	}
 	else
 	{
-		_setenv(ifn, "OLDPWD", _getenv(ifn, "PWD="));
-		_setenv(ifn, "PWD", getcwd(buffer, 1024));
+		_setenv(ents, "OLDPWD", _getenv(ents, "PWD="));
+		_setenv(ents, "PWD", getcwd(buffer, 1024));
 	}
 	return (0);
 }
 
 /**
- * _help - functionn to change the current directory
- * @ifn: the parameters of info_t
+ * _help - change the current directory
+ * @ents: parameters of set_t
  *  Return: Always 0
  */
-int _help(info_t *ifn)
+int _help(set_t *ents)
 {
 	char **st_args;
 
-	st_args = ifn->argv;
+	st_args = ents->argv;
 	_putstr("help call works. Function not yet implemented \n");
 	if (0)
 	{

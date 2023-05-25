@@ -1,8 +1,8 @@
 #include "shell.h"
 /**
- * prepend_node -function add a nodes at head
- * @head:pointer to the head of the list
- * @string: str field of nod
+ * prepend_node - add a nodes at head
+ * @head: ptr to the head of the list
+ * @string: str field
  * @numbers: node index
  * Return: size of list
  */
@@ -94,7 +94,7 @@ size_t list_printer(const list_t *p)
 	return (j);
 }
 /**
- * detach_node - functionnto delete the node at a given index
+ * detach_node - delete the node at a given index
  * @head: pointer to the head
  * @ind: index to delete
  * Return: 1 for success or 0 for failure
@@ -132,7 +132,7 @@ int detach_node(list_t **head, unsigned int ind)
 }
 
 /**
- * free_list - function to free all nodes of list
+ * free_list - free all nodes of list
  * @head_ptr: pointer to the head
  */
 void free_list(list_t **head_ptr)
@@ -140,7 +140,9 @@ void free_list(list_t **head_ptr)
 	list_t *nodes, *follow, *head;
 
 	if (!head_ptr || !*head_ptr)
+	{
 		return;
+	}
 	head = *head_ptr;
 	nodes = head;
 	while (nodes)

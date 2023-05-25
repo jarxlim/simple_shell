@@ -1,12 +1,12 @@
 #include "shell.h"
 /**
  * _buffcmd - to buffer chain commands
- * @ifn: parameter
+ * @ents: parameter
  * @buff: ptr to the buffer
  * @size: size of the buffer
  * Return: 0 on success
  */
-ssize_t _buffcmd(info_t *ifn, char **buff, size_t *size)
+ssize_t _buffcmd(set_t *ents, char **buff, size_t *size)
 {
 	ssize_t a = 0;
 	size_t length = 0;
@@ -19,7 +19,7 @@ ssize_t _buffcmd(info_t *ifn, char **buff, size_t *size)
 #if USE_GETLINE
 		a = getline(buff, &length, stdin);
 #else
-		a = _getline(ifn, buff, &length);
+		a = _getline(ents, buff, &length);
 #endif
 		if (a > 0)
 		{
@@ -28,12 +28,12 @@ ssize_t _buffcmd(info_t *ifn, char **buff, size_t *size)
 				(*buff)[a - 1] = '\0';
 				a--;
 			}
-			ifn->count_fline = 1;
+			ents->count_fline = 1;
 			comment_deleter(*buff);
-			append_list(ifn, *buff, ifn->hist_size++);
+			append_list(ents, *buff, ents->hist_size++);
 			{
 				*size = a;
-				ifn->buffer_cmd = buff;
+				ents->buffer_cmd = buff;
 			}
 		}
 	}
@@ -42,18 +42,18 @@ ssize_t _buffcmd(info_t *ifn, char **buff, size_t *size)
 
 /**
  * line_check - gets line from a newline
- * @ifn: parameter arguments
+ * @ents: parameter arguments
  * Return: 0 on success
  */
-ssize_t line_check(info_t *ifn)
+ssize_t line_check(set_t *ents)
 {
 	static char *buffer;
 	static size_t a, b, length;
 	ssize_t r = 0;
-	char **buff = &(ifn->arv), *p;
+	char **buff = &(ents->arv), *p;
 
 	_putchar(BUFFER_FLUSH);
-	r = _buffcmd(ifn, &buffer, &length);
+	r = _buffcmd(ents, &buffer, &length);
 	if (r == -1)
 	{
 		return (-1);
@@ -63,10 +63,10 @@ ssize_t line_check(info_t *ifn)
 		b = a;
 		p = buffer + a;
 
-		c_checker(ifn, buffer, &b, a, length);
+		c_checker(ents, buffer, &b, a, length);
 		while (b < length)
 		{
-			if (chain_test(ifn, buffer, &b))
+			if (chain_test(ents, buffer, &b))
 				break;
 			b++;
 		}
@@ -75,7 +75,7 @@ ssize_t line_check(info_t *ifn)
 		if (a >= length)
 		{
 			a = length = 0;
-			ifn->commands_type = COMMANDS_NORM;
+			ents->commands_type = COMMANDS_NORM;
 		}
 
 		*buff = p;
@@ -87,12 +87,12 @@ ssize_t line_check(info_t *ifn)
 }
 /**
  * buff_reader - reads a buffer
- * @ifn: parameter
+ * @ents: parameter
  * @buff: buffer inputed
  * @j: size of buff
  * Return: size of the buffer
  */
-ssize_t buff_reader(info_t *ifn, char *buff, size_t *j)
+ssize_t buff_reader(set_t *ents, char *buff, size_t *j)
 {
 	ssize_t a = 0;
 
@@ -100,7 +100,7 @@ ssize_t buff_reader(info_t *ifn, char *buff, size_t *j)
 	{
 		return (0);
 	}
-	a = read(ifn->file_reader, buff, BUFF_R_SIZE);
+	a = read(ents->file_reader, buff, BUFF_R_SIZE);
 	if (a >= 0)
 	{
 		*j = a;
@@ -109,12 +109,12 @@ ssize_t buff_reader(info_t *ifn, char *buff, size_t *j)
 }
 /**
  * _getline - get the next line of input from a std input
- * @ifn: paramete arguments
+ * @ents: paramete arguments
  * @p: pointer to the buffer
  * @length: size
  * Return: length of the line
  */
-int _getline(info_t *ifn, char **p, size_t *length)
+int _getline(set_t *ents, char **p, size_t *length)
 {
 	size_t k;
 	static char buff[BUFF_R_SIZE];
@@ -131,7 +131,7 @@ int _getline(info_t *ifn, char **p, size_t *length)
 	{
 		a = leng = 0;
 	}
-	hh = buff_reader(ifn, buff, &leng);
+	hh = buff_reader(ents, buff, &leng);
 	if (hh == -1 || (hh == 0 && leng == 0))
 	{
 		return (-1);

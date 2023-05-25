@@ -1,72 +1,84 @@
 #include "shell.h"
 
 /**
- * _format - initializes info_t structure
- * @ifn: adress for arguementss
+ * _format - initializes set_t structure
+ * @ents: adress for arguementss
  */
-void _format(info_t *ifn)
+void _format(set_t *ents)
 {
-	ifn->path = NULL;
-	ifn->argc = 0;
-	ifn->arv = NULL;
-	ifn->argv = NULL;
+	ents->path = NULL;
+	ents->argc = 0;
+	ents->arv = NULL;
+	ents->argv = NULL;
 }
 /**
  * _initiate - initializes structure
- * @ifn: argumnets
+ * @ents: argumnets
  * @avt: argument array
  */
-void _initiate(info_t *ifn, char **avt)
+void _initiate(set_t *ents, char **avt)
 {
 	int a = 0;
 
-	ifn->file_name = avt[0];
-	if (ifn->arv)
+	ents->file_name = avt[0];
+	if (ents->arv)
 	{
-		ifn->argv = strtow(ifn->arv, " \t");
-		if (!ifn->argv)
+		ents->argv = strtow(ents->arv, " \t");
+		if (!ents->argv)
 		{
 
-			ifn->argv = malloc(sizeof(char *) * 2);
-			if (ifn->argv)
+			ents->argv = malloc(sizeof(char *) * 2);
+			if (ents->argv)
 			{
-				ifn->argv[0] = _strdup(ifn->arv);
-				ifn->argv[1] = NULL;
+				ents->argv[0] = _strdup(ents->arv);
+				ents->argv[1] = NULL;
 			}
 		}
-		for (a = 0; ifn->argv && ifn->argv[a]; a++)
+		for (a = 0; ents->argv && ents->argv[a]; a++)
 			;
-		ifn->argc = a;
+		ents->argc = a;
 
-		change_alias(ifn);
-		change_v(ifn);
+		change_alias(ents);
+		change_v(ents);
 	}
 }
 /**
- * free_info - function to free struct fields
- * @ifn: struct address
+ * free_info - free struct fields
+ * @ents: struct address
  * @all: true if freeing all fields
  */
-void free_info(info_t *ifn, int all)
+void free_info(set_t *ents, int all)
 {
-	freef(ifn->argv);
-	ifn->argv = NULL;
-	ifn->path = NULL;
+	freef(ents->argv);
+	ents->argv = NULL;
+	ents->path = NULL;
 	if (all)
 	{
-		if (!ifn->buffer_cmd)
-			free(ifn->arv);
-		if (ifn->envp)
-			free_list(&(ifn->envp));
-		if (ifn->hist)
-			free_list(&(ifn->hist));
-		if (ifn->_alias)
-			free_list(&(ifn->_alias));
-		freef(ifn->environ);
-			ifn->environ = NULL;
-		bfree((void **)ifn->buffer_cmd);
-		if (ifn->file_reader > 2)
-			close(ifn->file_reader);
+		if (!ents->buffer_cmd)
+		{
+			free(ents->arv);
+		}
+		if (ents->envp)
+		{
+			free_list(&(ents->envp));
+		}
+		if (ents->hist)
+		{
+			free_list(&(ents->hist));
+		}
+		if (ents->_alias)
+		{
+			free_list(&(ents->_alias));
+		}
+		freef(ents->environ);
+		{
+			ents->environ = NULL;
+		}
+		bfree((void **)ents->buffer_cmd);
+		if (ents->file_reader > 2)
+		{
+			close(ents->file_reader);
+		}
 		_putchar(BUFFER_FLUSH);
 	}
 }

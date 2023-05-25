@@ -81,7 +81,7 @@ typedef struct pinfo
 	int commands_type;
 	int file_reader;
 	int hist_size;
-} info_t;
+} set_t;
 
 #define INFO_INIT \
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
@@ -95,106 +95,86 @@ typedef struct pinfo
 typedef struct blt
 {
 	char *type;
-	int (*func)(info_t *);
+	int (*func)(set_t *);
 } built_t;
 
-int _shell(info_t *, char **);
-int builtin_checker(info_t *);
-void cmd_finder(info_t *);
-void fork_cmd(info_t *);
-
-int  check_cmd(info_t *, char *);
+/**PROTOTYPES USED*/
+int _shell(set_t *, char **);
+int builtin_checker(set_t *);
+void cmd_finder(set_t *);
+void fork_cmd(set_t *);
+int  check_cmd(set_t *, char *);
 char *chars_dup(char *, int, int);
-char *path_finder(info_t *, char *, char *);
-
+char *path_finder(set_t *, char *, char *);
 int loophsh(char **);
-
 void _prints(char *);
 int printchar(char);
 int _pchar(char c, int fd);
 int _printsf(char *str, int fd);
-
 int _strlen(char *);
 int _strcmp(char *, char *);
 char *_leet(const char *, const char *);
 char *_strcat(char *, char *);
-
 char *_strcpy(char *, char *);
 char *_strdup(const char *);
 void _putstr(char *);
 int _putchar(char);
-
 char *_strncpy(char *, char *, int);
 char *_strncat(char *, char *, int);
 char *_strchr(char *, char);
-
 char **strtow(char *, char *);
 char **strtow2(char *, char);
-
 char *_memfill(char *, char, unsigned int);
 void freef(char **);
 void *_realloc(void *, unsigned int, unsigned int);
-
 int bfree(void **);
-
-int int_checker(info_t *);
+int int_checker(set_t *);
 int is_delim(char, char *);
 int _isalpha(int);
 int _atoi(char *);
-
 int _strtoint(char *);
-void error_printer(info_t *, char *);
+void error_printer(set_t *, char *);
 int write_dec(int, int);
 char *num_converter(long int, int, int);
 void comment_deleter(char *);
-
-int get_exit(info_t *);
-int _cmd(info_t *);
-int _help(info_t *);
-
-int _history(info_t *);
-int get_alias(info_t *);
-
-ssize_t line_check(info_t *);
-int _getline(info_t *, char **, size_t *);
+int get_exit(set_t *);
+int _cmd(set_t *);
+int _help(set_t *);
+int _history(set_t *);
+int get_alias(set_t *);
+ssize_t line_check(set_t *);
+int _getline(set_t *, char **, size_t *);
 void ctrlc_handler(int);
-
-void  _format(info_t *);
-void _initiate(info_t *, char **);
-void free_info(info_t *, int);
-
-char *_getenv(info_t *, const char *);
-int _envron(info_t *);
-int my_setenv(info_t *);
-int my_unsetenv(info_t *);
-int env_lister(info_t *);
-
-char **gt_env(info_t *);
-int _unsetenv(info_t *, char *);
-int _setenv(info_t *, char *, char *);
-
-char *find_history(info_t *ifn);
-int print_hist(info_t *ifn);
-int hist_read(info_t *ifn);
-int append_list(info_t *ifn, char *buffer, int size);
-int hist_recount(info_t *ifn);
-
+void  _format(set_t *);
+void _initiate(set_t *, char **);
+void free_info(set_t *, int);
+char *_getenv(set_t *, const char *);
+int _envron(set_t *);
+int my_setenv(set_t *);
+int my_unsetenv(set_t *);
+int env_lister(set_t *);
+char **gt_env(set_t *);
+int _unsetenv(set_t *, char *);
+int _setenv(set_t *, char *, char *);
+char *find_history(set_t *ents);
+int print_hist(set_t *ents);
+int hist_read(set_t *ents);
+int append_list(set_t *ents, char *buffer, int size);
+int hist_recount(set_t *ents);
 list_t *prepend_node(list_t **, const char *, int);
 list_t *append_node(list_t **, const char *, int);
 size_t list_printer(const list_t *);
 int detach_node(list_t **, unsigned int);
 void free_list(list_t **);
-
 size_t list_length(const list_t *);
 char **list_string(list_t *);
 size_t _lister(const list_t *);
 list_t *node_list(list_t *, char *, char);
 ssize_t find_node(list_t *, list_t *);
-
-int chain_test(info_t *, char *, size_t *);
-void c_checker(info_t *, char *, size_t *, size_t, size_t);
-int change_alias(info_t *);
-int change_v(info_t *);
+int chain_test(set_t *, char *, size_t *);
+void c_checker(set_t *, char *, size_t *, size_t, size_t);
+int change_alias(set_t *);
+int change_v(set_t *);
 int change_str(char **, char *);
 
 #endif

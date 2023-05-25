@@ -1,14 +1,14 @@
 #include "shell.h"
 /**
  * find_history -find the history of files
- * @ifn: structure of param
+ * @ents: structure of param
  * Return: pointer to string with history
  */
-char *find_history(info_t *ifn)
+char *find_history(set_t *ents)
 {
 	char *buff, *directory;
 
-	directory = _getenv(ifn, "HOME=");
+	directory = _getenv(ents, "HOME=");
 	if (!directory)
 	{
 		return (NULL);
@@ -26,14 +26,14 @@ char *find_history(info_t *ifn)
 	return (buff);
 }
 /**
- * print_hist -function to make the new file or append to an existing one
- * @ifn: the object of structure pinfo of pparameters
- * Return: 1 for success, -1 when fails
+ * print_hist - make the new file or append to an existing one
+ * @ents: parameters
+ * Return: 1 on success, -1 when fails
  */
-int print_hist(info_t *ifn)
+int print_hist(set_t *ents)
 {
 	ssize_t fds;
-	char *fname = find_history(ifn);
+	char *fname = find_history(ents);
 	list_t *nodes = NULL;
 
 	if (!fname)
@@ -43,7 +43,7 @@ int print_hist(info_t *ifn)
 	free(fname);
 	if (fds == -1)
 		return (-1);
-	for (nodes = ifn->hist; nodes; nodes = nodes->next)
+	for (nodes = ents->hist; nodes; nodes = nodes->next)
 	{
 		_printsf(nodes->str, fds);
 		_pchar('\n', fds);
@@ -53,16 +53,16 @@ int print_hist(info_t *ifn)
 	return (1);
 }
 /**
- * hist_read - function tha reads history from file
- * @ifn: structure info for parameters
+ * hist_read - reads history from file
+ * @ents: parameters
  * Return: number of hist count
  */
-int hist_read(info_t *ifn)
+int hist_read(set_t *ents)
 {
 	int lncount = 0, a, end = 0;
 	ssize_t filesize = 0, rdlength, fds;
 	struct stat str;
-	char *buff = NULL, *filename = find_history(ifn);
+	char *buff = NULL, *filename = find_history(ents);
 
 	if (!filename)
 		return (0);
@@ -87,52 +87,52 @@ int hist_read(info_t *ifn)
 		if (buff[a] == '\n')
 		{
 			buff[a] = 0;
-			append_list(ifn, buff + end, lncount++);
+			append_list(ents, buff + end, lncount++);
 			end = a + 1;
 		}
 	}
 	if (end != a)
-		append_list(ifn, buff + end, lncount++);
+		append_list(ents, buff + end, lncount++);
 	free(buff);
-	ifn->hist_size = lncount;
-	while (ifn->hist_size-- >= H_MAXIMUM)
-		detach_node(&(ifn->hist), 0);
-	hist_recount(ifn);
-	return (ifn->hist_size);
+	ents->hist_size = lncount;
+	while (ents->hist_size-- >= H_MAXIMUM)
+		detach_node(&(ents->hist), 0);
+	hist_recount(ents);
+	return (ents->hist_size);
 }
 
 /**
- * append_list - function that adds to a linked list
- * @ifn: object of struct pinfo that contains the argumens
+ * append_list - adds to a linked list
+ * @ents: param contains the argumens
  * @size: size of lines
  * @buffer: buffer pointing to the history
  * Return: 0 if success
  */
-int append_list(info_t *ifn, char *buffer, int size)
+int append_list(set_t *ents, char *buffer, int size)
 {
 	list_t *point = NULL;
 
-	if (ifn->hist)
+	if (ents->hist)
 	{
-		point = ifn->hist;
+		point = ents->hist;
 	}
 	append_node(&point, buffer, size);
 
-	if (!ifn->hist)
+	if (!ents->hist)
 	{
-		ifn->hist = point;
+		ents->hist = point;
 	}
 	return (0);
 }
 
 /**
  * hist_recount - renumbers the history
- * @ifn: contains arguments
+ * @ents: contains arguments
  * Return: new size
  */
-int hist_recount(info_t *ifn)
+int hist_recount(set_t *ents)
 {
-	list_t *point = ifn->hist;
+	list_t *point = ents->hist;
 	int a = 0;
 
 	while (point)
@@ -140,5 +140,5 @@ int hist_recount(info_t *ifn)
 		point->numbers = a++;
 		point = point->next;
 	}
-	return (ifn->hist_size = a);
+	return (ents->hist_size = a);
 }
