@@ -27,20 +27,46 @@
 #define USE_STRTOK 0
 
 extern char **environ;
-
+/**
+ * struct liststr - This is the structure fo list
+ * @numbers: the number ass the data in the linked list
+ * @str: the string as also data
+ * @next: the link to the next element of the linkedlist
+ */
 typedef struct liststr
 {
 	int numbers;
 	char *str;
 	struct liststr *next;
 } list_t;
+/**
+ * struct pinfo - the struct that will hold ekk argumennts we will need
+ * @arv: getline string generated
+ * @argv: arrayof strings from arv
+ * @path: Path of the current executed command
+ * @argc: number of arguments
+ * @count_line: nnmber of errors found
+ * @num_err: exit number
+ * @count_fline: flag fo input count
+ * @file_name: name of te program
+ * @envp: list of copy oof envron
+ * @hist: history node in the list
+ * @_alias: the node in list called alias
+ * @environ: the main copy of te environmental vars
+ * @change_env: whether environs are changed or not
+ * @stats: the status of previous executed commands
+ * @buffer_cmd: the poinetr to the commans_tyoe
+ * @commands_type: tyop CMD like ||, && and othe gate command
+ * @file_reader: file_desc for read line inpput
+ * @hist_size: thenumber of the lines counterd from history
+ */
 
 typedef struct pinfo
 {
 	char *arv;
-        char **argv;
-        char *path;
-        int argc;
+	char **argv;
+	char *path;
+	int argc;
 	unsigned int count_line;
 	int num_err;
 	int count_fline;
@@ -52,7 +78,7 @@ typedef struct pinfo
 	int change_env;
 	int stats;
 	char **buffer_cmd;
-	int commands_type; 
+	int commands_type;
 	int file_reader;
 	int hist_size;
 } info_t;
@@ -62,9 +88,9 @@ typedef struct pinfo
 	0, 0, 0}
 
 /**
- *struct builtin - contains a builtin string and related function
+ *struct blt -builtin string and related function
  *@type: the builtin command flag
- *@func: the function
+ *@func: the function for making the operation to the structure
  */
 typedef struct blt
 {
